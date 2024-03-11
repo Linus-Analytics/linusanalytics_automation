@@ -21,7 +21,7 @@ class CreateCustomer {
     private customerText: Locator;
     private searchBox: Locator;
     private searchedUser: Locator;
-    private searchedDataUser: Locator;
+    // private searchedDataUser: Locator;
     private threeDotsMenu: Locator;
     private archive: Locator;
     private active: Locator;
