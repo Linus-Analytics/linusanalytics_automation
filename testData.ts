@@ -1,12 +1,11 @@
 interface CustomerData {
-    data: string;
     customerName: string;
-    customerStreet1: string;
-    customerStreet2: string;
+    customerAddress: string;
     customerCity: string;
     customerCountry: string;
     customerState: string;
     customerZipCode: string;
+    customerPhoneNumber: string;
 }
 
 interface FacilityData {
@@ -35,14 +34,13 @@ interface TestData {
 
 const testData: TestData = {
     customerData: {
-        data: '',
-        customerName: 'Pershan Aadmi',
-        customerStreet1: '211 Banff Ave',
-        customerStreet2: 'Banff',
-        customerCity: 'Kabul',
-        customerCountry: 'Afghanistan',
-        customerState: 'Kabul',
-        customerZipCode: '3456463'
+        customerName: 'Pedro A. Reuter',
+        customerAddress: '5600 20th Ave NW',
+        customerCity: 'Seattle',
+        customerCountry: 'United States',
+        customerState: 'Washington',
+        customerZipCode: '98107',
+        customerPhoneNumber: '+1(206) 686-7440',
     },
     facilityData: {
         facilityCustomerName: 'Alex User Services',

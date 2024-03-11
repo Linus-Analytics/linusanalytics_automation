@@ -5,7 +5,7 @@ import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 
 test.describe('Customers All functionality', () => {
     test('Create Customer', async ({ page }) => {
-        var { customerName, customerStreet1, customerStreet2, customerZipCode } = testData.customerData;
+        var { customerName, customerAddress, customerCity, customerCountry, customerState, customerZipCode, customerPhoneNumber } = testData.customerData;
         const randomNumber: number = RandomNumberGenerator.generateRandomInteger(1, 100);
 
         customerName = customerName + "-" + randomNumber
@@ -14,7 +14,7 @@ test.describe('Customers All functionality', () => {
         await customer.verificationGranted();
         await customer.clickAddCustomer();
         await page.waitForTimeout(3000);
-        await customer.enterCustomerDetails(customerName, customerStreet1, customerStreet2, customerZipCode);
+        await customer.enterCustomerDetails(customerName, customerAddress, customerCity, customerCountry, customerState, customerZipCode, customerPhoneNumber);
         const createdCustomerName = await customer.getCustomerName();
         expect(createdCustomerName).toBe(customerName); // Assuming getCustomerName returns the created customer's name
         await customer.clickOnSaveBtn();

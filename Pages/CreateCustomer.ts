@@ -31,7 +31,7 @@ class CreateCustomer {
 
     constructor(page: Page) {
         this.page = page;
-        const { customerCity, customerCountry, customerState, data } = testData.customerData;
+        const { customerName, customerAddress, customerCity, customerCountry, customerState, customerZipCode, customerPhoneNumber } = testData.customerData;
 
         this.customerIcon = page.locator('//p[contains(text(),"Customers")]/parent::div[@role="button"]');
         this.addCustomer = page.locator("//*[contains(text(),'Add Customer')]");
@@ -49,20 +49,24 @@ class CreateCustomer {
         this.customerText = page.locator("//*[contains(text(),'Add Customer')]");
         this.searchBox = page.locator(`//h4[@aria-label="${this.fieldValue}"]`);;
         this.searchedUser = page.locator("//h4[@aria-label='${this.fieldValue}']");
-        this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
+        // this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
         this.threeDotsMenu = page.locator('//button[@class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk"]');
         this.archive = page.locator("//*[contains(text(),'Archive')]");
         this.active = page.locator("//*[contains(text(),'Active')]");
         this.restore = page.locator("//*[contains(text(),'Restore')]");
         this.delete = page.locator("//*[contains(text(),'Delete')]");
         this.confirmDelete = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth css-1o05m8h']");
+        this.
     }
 
-    async enterCustomerDetails(customerName: string, customerStreet1: string, customerStreet2: string, customerZipCode: string) {
+    async enterCustomerDetails(customerName: string, customerAddress: string, customerCity: string, customerCountry: string, customerState: string, customerZipCode: string, customerPhoneNumber: string) {
         await this.customerNameInput.fill(customerName);
-        await this.street1Input.fill(customerStreet1);
-        await this.street2Input.fill(customerStreet2);
+        await this.street1Input.fill(customerAddress);
+        await this.street2Input.fill(customerCity);
+        await this.zipCodeInput.fill(customerCountry);
+        await this.zipCodeInput.fill(customerState);
         await this.zipCodeInput.fill(customerZipCode);
+        await this.zipCodeInput.fill(customerPhoneNumber);
     }
 
     async getCustomerName() {
