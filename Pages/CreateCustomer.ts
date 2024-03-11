@@ -9,7 +9,7 @@ class CreateCustomer {
     private addCustomer: Locator;
     private customerNameInput: Locator;
     private street1Input: Locator;
-    private street2Input: Locator;
+    // private street2Input: Locator;
     private zipCodeInput: Locator;
     private country: Locator;
     private state: Locator;
@@ -37,18 +37,18 @@ class CreateCustomer {
         this.addCustomer = page.locator("//*[contains(text(),'Add Customer')]");
         this.customerNameInput = page.locator("//input[@name='name']");
         this.street1Input = page.locator("//input[@name='streetAddress1']");
-        this.street2Input = page.locator("//input[@name='streetAddress2']");
+        // this.street2Input = page.locator("//input[@name='streetAddress2']");
         this.zipCodeInput = page.locator("//input[@name='zipCode']");
         this.country = page.locator("//div[@id='mui-component-select-country']");
         this.state = page.locator("//div[@id='mui-component-select-state']");
-        this.city = page.locator("//*[contains(text(),'City')]");
+        this.city = page.locator("/html/body/div[2]/div[3]/div/div[1]/div/div[4]/div/div[3]/div/div/div/input");
         this.saveBtn = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-k2bprm']");
-        this.selectedCountry = page.locator('//li[@data-value="${customerCountry}"]');
-        this.selectedState = page.locator('//li[@data-value="${customerState}"]');
-        this.selectedCity = page.locator('//li[@data-value="${customerCity}"]');
+        this.selectedCountry = page.locator(`//li[@data-value="${customerCountry}"]`);
+        this.selectedState = page.locator(`//li[@data-value="${customerState}"]`);
+        this.selectedCity = page.locator(`//li[@data-value="${customerCity}"]`);
         this.customerText = page.locator("//*[contains(text(),'Add Customer')]");
         this.searchBox = page.locator(`//h4[@aria-label="${this.fieldValue}"]`);;
-        this.searchedUser = page.locator("//h4[@aria-label='${this.fieldValue}']");
+        this.searchedUser = page.locator(`//h4[@aria-label='${this.fieldValue}']`);
         // this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
         this.threeDotsMenu = page.locator('//button[@class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk"]');
         this.archive = page.locator("//*[contains(text(),'Archive')]");
@@ -56,15 +56,15 @@ class CreateCustomer {
         this.restore = page.locator("//*[contains(text(),'Restore')]");
         this.delete = page.locator("//*[contains(text(),'Delete')]");
         this.confirmDelete = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth css-1o05m8h']");
-        this.
     }
 
     async enterCustomerDetails(customerName: string, customerAddress: string, customerCity: string, customerCountry: string, customerState: string, customerZipCode: string, customerPhoneNumber: string) {
         await this.customerNameInput.fill(customerName);
         await this.street1Input.fill(customerAddress);
-        await this.street2Input.fill(customerCity);
-        await this.zipCodeInput.fill(customerCountry);
-        await this.zipCodeInput.fill(customerState);
+        
+        await this.country.fill(customerCountry);
+        await this.state.fill(customerState);
+        await this.city.fill(customerCity);
         await this.zipCodeInput.fill(customerZipCode);
         await this.zipCodeInput.fill(customerPhoneNumber);
     }
@@ -160,8 +160,8 @@ class CreateCustomer {
 
     async customerNavigation() {
         await this.page.goto("https://staging-app.linusanalytics.com/admin/customers/");
-        // await this.page.waitForTimeout(10000);
-        await this.page.waitForLoadState('networkidle');
+         await this.page.waitForTimeout(10000);
+       // await this.page.waitForLoadState('networkidle');
 
 
 
@@ -196,38 +196,38 @@ class CreateCustomer {
         }
     }
 
-    async goToSearchedUser(data: string) {
-        console.log("Field Value is ---------- " + this.fieldValue);
-        console.log("Data Value is ---------- " + data);
+    // async goToSearchedUser(data: string) {
+    //     console.log("Field Value is ---------- " + this.fieldValue);
+    //     console.log("Data Value is ---------- " + data);
 
-        if (this.fieldValue != undefined) {
-            let val = await this.searchedUser.getAttribute('aria-label');
-            console.log("Val is ---------- " + val);
-            console.log("Field Value is ---------- " + this.fieldValue);
+    //     if (this.fieldValue != undefined) {
+    //         let val = await this.searchedUser.getAttribute('aria-label');
+    //         console.log("Val is ---------- " + val);
+    //         console.log("Field Value is ---------- " + this.fieldValue);
 
-            if (this.fieldValue == val) {
-                await this.searchedUser.isVisible();
-                console.log("User available......!");
-                await this.searchedUser.click();
-                console.log("User clicked......!");
-            } else {
-                console.log("User not found");
-            }
-        } else {
-            let val = await this.searchedDataUser.getAttribute('aria-label');
-            console.log("Val is ---------- " + val);
-            console.log("Data Value is ---------- " + data);
+    //         if (this.fieldValue == val) {
+    //             await this.searchedUser.isVisible();
+    //             console.log("User available......!");
+    //             await this.searchedUser.click();
+    //             console.log("User clicked......!");
+    //         } else {
+    //             console.log("User not found");
+    //         }
+    // //     } else {
+    //         let val = await this.searchedDataUser.getAttribute('aria-label');
+    //         console.log("Val is ---------- " + val);
+    //         console.log("Data Value is ---------- " + data);
 
-            if (data == val) {
-                await this.searchedDataUser.isVisible();
-                console.log("User available......!");
-                await this.searchedDataUser.click();
-                console.log("User clicked......!");
-            } else {
-                console.log("User not found");
-            }
-        }
-    }
+    //         if (data == val) {
+    //             await this.searchedDataUser.isVisible();
+    //             console.log("User available......!");
+    //             await this.searchedDataUser.click();
+    //             console.log("User clicked......!");
+    //         } else {
+    //             console.log("User not found");
+    //         }
+    //     }
+    // }
 
     async archiveUser() {
         if (await this.threeDotsMenu.isVisible()) {
