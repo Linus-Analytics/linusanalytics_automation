@@ -1,1 +1,1 @@
-# linusanalytics_automation
+# Linus-Analytics
