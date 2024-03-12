@@ -1,3 +1,4 @@
+import { TIMEOUT } from 'dns';
 import testData from '../testData';
 import { Locator, Page, BrowserContext } from '@playwright/test';
 
@@ -9,11 +10,12 @@ class CreateCustomer {
     private addCustomer: Locator;
     private customerNameInput: Locator;
     private street1Input: Locator;
-    // private street2Input: Locator;
+    private street2Input: Locator;
     private zipCodeInput: Locator;
     private country: Locator;
     private state: Locator;
     private city: Locator;
+    private phonenumber : Locator;
     private saveBtn: Locator;
     private selectedCountry: Locator;
     private selectedState: Locator;
@@ -31,18 +33,19 @@ class CreateCustomer {
 
     constructor(page: Page) {
         this.page = page;
-        const { customerName, customerAddress, customerCity, customerCountry, customerState, customerZipCode, customerPhoneNumber } = testData.customerData;
+        const { customerName, customerAddress, customerCountry, customerState, customerCity, customerZipCode, customerPhoneNumber } = testData.customerData;
 
         this.customerIcon = page.locator('//p[contains(text(),"Customers")]/parent::div[@role="button"]');
         this.addCustomer = page.locator("//*[contains(text(),'Add Customer')]");
         this.customerNameInput = page.locator("//input[@name='name']");
         this.street1Input = page.locator("//input[@name='streetAddress1']");
-        // this.street2Input = page.locator("//input[@name='streetAddress2']");
+        this.street2Input = page.locator("//input[@name='streetAddress2']");
         this.zipCodeInput = page.locator("//input[@name='zipCode']");
-        this.country = page.locator("//div[@id='mui-component-select-country']");
-        this.state = page.locator("//div[@id='mui-component-select-state']");
-        this.city = page.locator("/html/body/div[2]/div[3]/div/div[1]/div/div[4]/div/div[3]/div/div/div/input");
-        this.saveBtn = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-k2bprm']");
+        this.phonenumber = page.locator("//input[@name='phoneNumber']");
+        this.country = page.locator("//html/body/div[2]/div[3]/div/div[1]/div/div[4]/div/div[1]/div/div/div/input");
+        this.state = page.locator("//html/body/div[2]/div[3]/div/div[1]/div/div[4]/div/div[2]/div/div/div/input");
+        this.city = page.locator("//html/body/div[2]/div[3]/div/div[1]/div/div[4]/div/div[3]/div/div/div/input");
+        this.saveBtn = page.locator("//*[contains(text(),'Save')]");
         this.selectedCountry = page.locator(`//li[@data-value="${customerCountry}"]`);
         this.selectedState = page.locator(`//li[@data-value="${customerState}"]`);
         this.selectedCity = page.locator(`//li[@data-value="${customerCity}"]`);
@@ -58,15 +61,24 @@ class CreateCustomer {
         this.confirmDelete = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth css-1o05m8h']");
     }
 
-    async enterCustomerDetails(customerName: string, customerAddress: string, customerCity: string, customerCountry: string, customerState: string, customerZipCode: string, customerPhoneNumber: string) {
+    async enterCustomerDetails(customerName: string, customerAddress: string, customerAddress2: string, customerCountry: string, customerState: string, customerCity: string, customerZipCode: string, customerPhoneNumber: string) {
         await this.customerNameInput.fill(customerName);
+        console.log("Customer Name ----------> " + customerName);
         await this.street1Input.fill(customerAddress);
-        
+        console.log("Street Address 1 ----------> " + customerAddress);
+        await this.street2Input.fill(customerAddress2);
+        console.log("Street Address 2 ----------> " + customerAddress2);
         await this.country.fill(customerCountry);
+        console.log("Country Name ----------> " + customerCountry);
         await this.state.fill(customerState);
+        console.log("State Name ----------> " + customerState);
         await this.city.fill(customerCity);
+        console.log("City Name ----------> " + customerCity);
         await this.zipCodeInput.fill(customerZipCode);
-        await this.zipCodeInput.fill(customerPhoneNumber);
+        console.log("Zip Code ----------> " + customerZipCode);
+        await this.phonenumber.fill(customerPhoneNumber)
+        console.log("Phone Number ----------> " + customerPhoneNumber);
+        
     }
 
     async getCustomerName() {
@@ -93,7 +105,7 @@ class CreateCustomer {
         if (await this.searchBox.isVisible()) {
             console.log("User successfully created and navigate back to the customer tab");
         } else {
-            console.log("Unable to create customer");
+            console.log("Unable to search customer");
         }
     }
 
