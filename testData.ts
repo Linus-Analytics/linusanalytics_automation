@@ -35,7 +35,9 @@ interface TestData {
 }
 
 const testData: TestData = {
+
     customerData: {
+
         customerName: 'Tommy Bahama',
         customerAddress: '2F, 4035-1 Ikenobecho, Tsuzuki-ku, Yokohama',
         customerAddress2: '47 W 13th St, New York, NY 10011',
@@ -46,6 +48,7 @@ const testData: TestData = {
         customerPhoneNumber: '+1(926) 221-0824',
     },
     facilityData: {
+
         facilityCustomerName: 'Pedro A. Reuter-44',
         facilityName: "Alex Facility Services",
         contactName: "Mavric",
@@ -58,6 +61,7 @@ const testData: TestData = {
         facilityWeight: "10 kg"
     },
     scaleData: {
+
         Id: '12345',
         scaleId: "13245",
         scaleName: "Alex Scale"

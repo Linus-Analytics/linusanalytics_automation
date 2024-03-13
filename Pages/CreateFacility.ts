@@ -1,6 +1,4 @@
-import { Console } from 'console';
 import testData from '../testData';
-import CreateCustomer from './CreateCustomer';
 import { Locator, Page } from '@playwright/test';
 
 interface FacilityData {
@@ -13,7 +11,7 @@ interface FacilityData {
 
 class CreateFacility {
 
-    
+
     private page: Page; // You should replace `any` with the appropriate type if possible
     private facilityicon: Locator;
     private Addfacility: Locator;
@@ -28,17 +26,18 @@ class CreateFacility {
     private state: Locator;
     private city: Locator;
     private weight: Locator;
-    private selectCustomerName: Locator;
+    // private selectCustomerName: Locator;
     // private selectedcountry: Locator;
     // private selectedstate: Locator;
     // private selectedcity: Locator;
     // private selectedWeight: Locator;
     private facilityText: Locator;
     private savebtn: Locator;
+    selectCustomerName!: Locator;
 
     constructor(page: Page) { // You should replace `any` with the appropriate type if possible
         this.page = page;
-        const { facilityCustomerName }: FacilityData = testData.facilityData  // ,facilityCountry, facilityState, facilityCity, facilityWeight
+       // const { facilityCustomerName }: FacilityData = testData.facilityData  // ,facilityCountry, facilityState, facilityCity, facilityWeight
 
         this.facilityicon = page.locator("//img[@alt='Facilities-icon']");
         this.Addfacility = page.locator("//*[contains(text(),'Add Facility')]");
@@ -53,7 +52,7 @@ class CreateFacility {
         this.state = page.locator("//div[@id='mui-component-select-state']");
         this.city = page.locator("//div[@id='mui-component-select-city']");
         this.weight = page.locator("//div[@id='mui-component-select-weight']");
-        this.selectCustomerName = page.locator(`//*[contains(text(),"${facilityCustomerName}")]`);
+
         // this.selectedcountry = page.locator(`//li[@data-value="${facilityCountry}"]`);
         // this.selectedstate = page.locator(`//li[@data-value="${facilityState}"]`);
         // this.selectedcity = page.locator(`//li[@data-value="${facilityCity}"]`);
@@ -62,7 +61,7 @@ class CreateFacility {
         this.savebtn = page.locator("//*[contains(text(),'Save')]");
     }
 
-    async enterFacilityDetails(facilityName: string, contactName:string ) {  // , facilityStreet1: string, facilityStreet2: string, facilityZipCode: string 
+    async enterFacilityDetails(facilityName: string, contactName: string) {  // , facilityStreet1: string, facilityStreet2: string, facilityZipCode: string 
         await this.facilitynameInput.fill(facilityName);
         await this.contactName.fill(contactName);
         await this.switch.click()
@@ -94,10 +93,11 @@ class CreateFacility {
     //     await this.selectedstate.click();
     // }
 
-    async clickFacilityCustomer() {
+    async clickFacilityCustomer(customerName: string, page: Page) {
         await this.customername.click();
-        await 
+        this.selectCustomerName = page.locator(`//ul[@id="customer-listbox"]/li/p[contains(text(),"${customerName}")]`);
         await this.selectCustomerName.click();
+    
     }
 
     // async selectFacilityweight() {
