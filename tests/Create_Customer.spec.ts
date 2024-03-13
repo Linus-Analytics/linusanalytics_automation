@@ -15,10 +15,12 @@ test.describe('Customers All functionality', () => {
         await customer.clickAddCustomer();
         await page.waitForTimeout(3000);
         await customer.enterCustomerDetails(customerName, customerAddress, customerAddress2, customerCountry, customerState, customerCity, customerZipCode, customerPhoneNumber);
-        const createdCustomerName = await customer.getCustomerName();
+        await customer.getCustomerName();
         // expect(createdCustomerName).toBe(customerName); // Assuming getCustomerName returns the created customer's name
         await customer.clickOnSaveBtn();
-        await customer.userCreated();
         await page.waitForTimeout(5000);
+        await customer.userCreated();
+    
     });
+    
 });

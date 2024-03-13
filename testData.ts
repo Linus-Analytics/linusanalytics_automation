@@ -12,8 +12,9 @@ interface CustomerData {
 interface FacilityData {
     facilityCustomerName: string;
     facilityName: string;
-    facilityStreet1: string;
-    facilityStreet2: string;
+    contactName: string;
+    // facilityStreet1: string;
+    // facilityStreet2: string;
     facilityCity: string;
     facilityCountry: string;
     facilityState: string;
@@ -45,10 +46,11 @@ const testData: TestData = {
         customerPhoneNumber: '+1(926) 221-0824',
     },
     facilityData: {
-        facilityCustomerName: 'Alex User Services',
+        facilityCustomerName: 'Pedro A. Reuter-44',
         facilityName: "Alex Facility Services",
-        facilityStreet1: "211 Banff Ave",
-        facilityStreet2: "Banff",
+        contactName: "Mavric",
+        // facilityStreet1: "211 Banff Ave",
+        // facilityStreet2: "Banff",
         facilityCity: 'Kabul',
         facilityCountry: 'Afghanistan',
         facilityState: 'Kabul',
