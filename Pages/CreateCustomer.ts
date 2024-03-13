@@ -1,6 +1,5 @@
-import { TIMEOUT } from 'dns';
 import testData from '../testData';
-import { Locator, Page, BrowserContext } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 class CreateCustomer {
     private page: Page;
@@ -15,7 +14,7 @@ class CreateCustomer {
     private country: Locator;
     private state: Locator;
     private city: Locator;
-    private phonenumber : Locator;
+    private phonenumber: Locator;
     private saveBtn: Locator;
     private selectedCountry: Locator;
     private selectedState: Locator;
@@ -52,7 +51,7 @@ class CreateCustomer {
         this.customerText = page.locator("//*[contains(text(),'Add Customer')]");
         this.searchBox = page.locator(`//h4[@aria-label="${this.fieldValue}"]`);;
         this.searchedUser = page.locator(`//h4[@aria-label='${this.fieldValue}']`);
-        // this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
+        //this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
         this.threeDotsMenu = page.locator('//button[@class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk"]');
         this.archive = page.locator("//*[contains(text(),'Archive')]");
         this.active = page.locator("//*[contains(text(),'Active')]");
@@ -63,26 +62,27 @@ class CreateCustomer {
 
     async enterCustomerDetails(customerName: string, customerAddress: string, customerAddress2: string, customerCountry: string, customerState: string, customerCity: string, customerZipCode: string, customerPhoneNumber: string) {
         await this.customerNameInput.fill(customerName);
-        console.log("Customer Name ----------> " + customerName);
+        // console.log("Customer Name ----------> " + customerName);
         await this.street1Input.fill(customerAddress);
-        console.log("Street Address 1 ----------> " + customerAddress);
+        // console.log("Street Address 1 ----------> " + customerAddress);
         await this.street2Input.fill(customerAddress2);
-        console.log("Street Address 2 ----------> " + customerAddress2);
+        // console.log("Street Address 2 ----------> " + customerAddress2);
         await this.country.fill(customerCountry);
-        console.log("Country Name ----------> " + customerCountry);
+        // console.log("Country Name ----------> " + customerCountry);
         await this.state.fill(customerState);
-        console.log("State Name ----------> " + customerState);
+        // console.log("State Name ----------> " + customerState);
         await this.city.fill(customerCity);
-        console.log("City Name ----------> " + customerCity);
+        // console.log("City Name ----------> " + customerCity);
         await this.zipCodeInput.fill(customerZipCode);
-        console.log("Zip Code ----------> " + customerZipCode);
+        // console.log("Zip Code ----------> " + customerZipCode);
         await this.phonenumber.fill(customerPhoneNumber)
-        console.log("Phone Number ----------> " + customerPhoneNumber);
-        
+        // console.log("Phone Number ----------> " + customerPhoneNumber);
+
     }
 
     async getCustomerName() {
-        const value = await this.customerNameInput.getAttribute('value');
+
+        const value = await this.customerNameInput.getAttribute('value')
         if (value !== null) {
             this.fieldValue = value;
             console.log("value is ---------- " + this.fieldValue);
@@ -93,14 +93,60 @@ class CreateCustomer {
         return this.fieldValue;
     }
 
-    async verificationGranted() {
-        if (await this.customerText.isVisible()) {
-            console.log("User successfully navigate to customer tab");
+
+    async checkCustomer(page: Page, customerName: string) {
+        const customerList = await page.$$('//h4');
+
+        if (customerList.length > 0) {
+            let customerFound = false;
+            for (const element of customerList) {
+                const customerListText = await element.textContent();
+                if (customerListText) { // Check if customerListText is not null
+                    console.log("Customer Name =========== " + customerListText);
+
+                    if (customerListText.trim().toLowerCase() === customerName.trim().toLowerCase()) {
+                        console.log("Customer Created ----------------> " + customerName);
+                        customerFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!customerFound) {
+                console.log("Customer Not Found In List ----------------> " + customerName);
+            }
         } else {
-            console.log("User failed to navigate");
+            console.log("Customer Data Not Found ----------------> " + customerName);
         }
     }
 
+    // async verifyCustomerCreated(customerName: string) {
+
+    //     const customerElements = await this.page.$$(`//h4[contains(@aria-label, '${customerName}')]`);
+
+    //     // Get the name of the created customer
+    //     const createdCustomerName = await this.getCustomerName();
+
+    //     // Check if the created customer name is defined
+    //     if (createdCustomerName) {
+    //         // Check if the created customer is present in the list
+    //         const isCustomerPresent = customerElements.some(async (element) => {
+    //             const text = await element.textContent();
+
+    //             // Add a null check for the text content
+    //             if (text !== null) {
+    //                 console.log("Text ====================> " + text);
+    //                 return text.includes(createdCustomerName);
+    //             } else {
+    //                 return false;
+    //             }
+    //         });
+    //         // Assertion
+    //         expect(isCustomerPresent).toBeTruthy();
+    //     } else {
+    //         throw new Error("The created customer name is undefined.");
+    //     }
+    // }
     async userCreated() {
         if (await this.searchBox.isVisible()) {
             console.log("User successfully created and navigate back to the customer tab");
@@ -119,8 +165,7 @@ class CreateCustomer {
 
     async clickAddCustomer() {
         if (await this.addCustomer.isVisible()) {
-            console.log("Add customer button is visible......!");
-            await this.addCustomer.click();
+            this.addCustomer.click();
             console.log("Add customer button clicked......!");
         } else {
             console.log("Add customer button not found......!");
@@ -172,11 +217,12 @@ class CreateCustomer {
 
     async customerNavigation() {
         await this.page.goto("https://staging-app.linusanalytics.com/admin/customers/");
-         await this.page.waitForTimeout(10000);
-       // await this.page.waitForLoadState('networkidle');
-
-
-
+        await this.page.waitForTimeout(10000);
+        if (await this.customerText.isVisible()) {
+            console.log("User successfully navigate to customer tab");
+        } else {
+            console.log("User failed to navigate");
+        }
     }
 
     async searchCustomer(data: string) {
