@@ -148,7 +148,7 @@ class CreateCustomer {
     //     }
     // }
     async userCreated() {
-        if (await this.searchBox.isVisible()) {
+        if (await this.searchBox.isVisible(), {timeout: 5000}) {
             console.log("User successfully created and navigate back to the customer tab");
         } else {
             console.log("Unable to search customer");
