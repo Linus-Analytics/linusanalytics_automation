@@ -16,10 +16,11 @@ test.describe('Facility All functionality', () => {
     const facility = new CreateFacility(page);
     await facility.facilityNavigation();
     await facility.clickAddFacility();
-    await page.waitForTimeout(12000);
     await facility.clickFacilityCustomer(customerNameValue, page);
     await facility.enterFacilityDetails(facilityNameValue, contactName);
     await facility.clickonFacilitySavebtn();
+    page.pause();
+    await facility.facilityNavigation();
   });
 
 });

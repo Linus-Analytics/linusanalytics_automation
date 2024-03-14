@@ -1,3 +1,10 @@
+interface TestData {
+    customerData: CustomerData;
+    facilityData: FacilityData;
+    scaleData: ScaleData;
+    binData: binData;
+}
+
 interface CustomerData {
     customerName: string;
     customerAddress: string;
@@ -25,17 +32,19 @@ interface ScaleData {
     scaleName: string;
 }
 
-interface TestData {
-    customerData: CustomerData;
-    facilityData: FacilityData;
-    scaleData: ScaleData;
+interface binData{
+
+    binName: string;
+    maxCapacity: string;
+    capacityThreshold: string;
+
 }
 
 const testData: TestData = {
 
     customerData: {
 
-        customerName: 'Tommy Bahama',
+        customerName: 'Abraham',
         customerAddress: '2F, 4035-1 Ikenobecho, Tsuzuki-ku, Yokohama',
         customerAddress2: '47 W 13th St, New York, NY 10011',
         customerCountry: 'Japan',
@@ -45,7 +54,7 @@ const testData: TestData = {
         customerPhoneNumber: '+1(926) 221-0824',
     },
     facilityData: {
-        facilityName: "FacilityServices",
+        facilityName: "Facility",
         contactName: "Mavric",
         facilityCity: 'Kabul',
         facilityCountry: 'Afghanistan',
@@ -58,7 +67,14 @@ const testData: TestData = {
         Id: '12345',
         scaleId: "13245",
         scaleName: "Alex Scale"
-    }
+    },
+
+    binData: {
+
+        binName: "Bin",
+        maxCapacity: "5000",
+        capacityThreshold: "80"
+    },
 };
 
 export default testData;

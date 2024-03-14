@@ -36,17 +36,17 @@ class CreateFacility {
         this.street2Input = page.locator("//input[@name='streetAddress2']");
         this.zipcodeInput = page.locator("//input[@placeholder='Zip Code']");
         this.customername = page.locator("//button/img[@src='/_next/static/media/select_arrow.b1f6ceaf.svg']");
+        this.facilityText = page.locator("//*[contains(text(),'Add Facility')]");
+        this.savebtn = page.locator("//*[contains(text(),'Save')]");
+
         // this.country = page.locator("//div[@id='mui-component-select-country']");
         // this.state = page.locator("//div[@id='mui-component-select-state']");
         // this.city = page.locator("//div[@id='mui-component-select-city']");
         // this.weight = page.locator("//div[@id='mui-component-select-weight']");
-
         // this.selectedcountry = page.locator(`//li[@data-value="${facilityCountry}"]`);
         // this.selectedstate = page.locator(`//li[@data-value="${facilityState}"]`);
         // this.selectedcity = page.locator(`//li[@data-value="${facilityCity}"]`);
         // this.selectedWeight = page.locator(`//li[@data-value="${facilityWeight}"]`);
-        this.facilityText = page.locator("//*[contains(text(),'Add Facility')]");
-        this.savebtn = page.locator("//*[contains(text(),'Save')]");
     }
 
 
