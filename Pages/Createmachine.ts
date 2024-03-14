@@ -13,7 +13,7 @@ class CreateMachine {
     private machineText: Locator;
     private searchBox: Locator;
     private searchedUser: Locator;
-    private searchedDataUser: Locator;
+    // private searchedDataUser: Locator;
     private threeDotsMenu: Locator;
     private archive: Locator;
     private active: Locator;
@@ -23,8 +23,6 @@ class CreateMachine {
 
     constructor(page: Page) {
         this.page = page;
-        const { customerCity, customerCountry, customerState, data } = testData.customerData;
-
         this.machineIcon = page.locator('//p[contains(text(),"Machines")]/parent::div[@role="button"]');
         this.addMachine = page.locator("//*[contains(text(),'Add Machine')]");
         this.machineNameInput = page.locator("//input[@name='name']");
@@ -32,7 +30,7 @@ class CreateMachine {
         this.machineText = page.locator("//*[contains(text(),'Add Customer')]");
         this.searchBox = page.locator(`//h4[@aria-label="${this.fieldValue}"]`);;
         this.searchedUser = page.locator("//h4[@aria-label='${this.fieldValue}']");
-        this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
+        //  this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
         this.threeDotsMenu = page.locator('//button[@class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk"]');
         this.archive = page.locator("//*[contains(text(),'Archive')]");
         this.active = page.locator("//*[contains(text(),'Active')]");

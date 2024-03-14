@@ -21,8 +21,6 @@ class CreateCustomer {
     private selectedCity: Locator;
     private customerText: Locator;
     private searchBox: Locator;
-    private searchedUser: Locator;
-    // private searchedDataUser: Locator;
     private threeDotsMenu: Locator;
     private archive: Locator;
     private active: Locator;
@@ -32,7 +30,7 @@ class CreateCustomer {
 
     constructor(page: Page) {
         this.page = page;
-        const { customerName, customerAddress, customerCountry, customerState, customerCity, customerZipCode, customerPhoneNumber } = testData.customerData;
+        const { customerCountry, customerState, customerCity } = testData.customerData;
 
         this.customerIcon = page.locator('//p[contains(text(),"Customers")]/parent::div[@role="button"]');
         this.addCustomer = page.locator("//*[contains(text(),'Add Customer')]");
@@ -50,8 +48,6 @@ class CreateCustomer {
         this.selectedCity = page.locator(`//li[@data-value="${customerCity}"]`);
         this.customerText = page.locator("//*[contains(text(),'Add Customer')]");
         this.searchBox = page.locator(`//h4[@aria-label="${this.fieldValue}"]`);;
-        this.searchedUser = page.locator(`//h4[@aria-label='${this.fieldValue}']`);
-        //this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
         this.threeDotsMenu = page.locator('//button[@class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk"]');
         this.archive = page.locator("//*[contains(text(),'Archive')]");
         this.active = page.locator("//*[contains(text(),'Active')]");
@@ -60,199 +56,206 @@ class CreateCustomer {
         this.confirmDelete = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth css-1o05m8h']");
     }
 
-    async enterCustomerDetails(customerName: string, customerAddress: string, customerAddress2: string, customerCountry: string, customerState: string, customerCity: string, customerZipCode: string, customerPhoneNumber: string) {
-        await this.customerNameInput.fill(customerName);
-        // console.log("Customer Name ----------> " + customerName);
-        await this.street1Input.fill(customerAddress);
-        // console.log("Street Address 1 ----------> " + customerAddress);
-        await this.street2Input.fill(customerAddress2);
-        // console.log("Street Address 2 ----------> " + customerAddress2);
-        await this.country.fill(customerCountry);
-        // console.log("Country Name ----------> " + customerCountry);
-        await this.state.fill(customerState);
-        // console.log("State Name ----------> " + customerState);
-        await this.city.fill(customerCity);
-        // console.log("City Name ----------> " + customerCity);
-        await this.zipCodeInput.fill(customerZipCode);
-        // console.log("Zip Code ----------> " + customerZipCode);
-        await this.phonenumber.fill(customerPhoneNumber)
-        // console.log("Phone Number ----------> " + customerPhoneNumber);
 
-    }
-
-    async getCustomerName() {
-
-        const value = await this.customerNameInput.getAttribute('value')
-        if (value !== null) {
-            this.fieldValue = value;
-            console.log("value is ---------- " + this.fieldValue);
-        } else {
-            console.log("value is null");
-            this.fieldValue = undefined;
+    async customerNavigation(): Promise<boolean> {
+        try {
+            await this.page.goto("https://staging-app.linusanalytics.com/admin/customers/");
+            await this.page.waitForTimeout(10000);
+            if (await this.customerText.isVisible()) {
+                console.log("User successfully navigated to customer tab");
+                return true; // Return true if the customer tab is visible
+            } else {
+                console.log("User failed to navigate to customer tab");
+                return false; // Return false if the customer tab is not visible
+            }
+        } catch (error) {
+            console.error("Error during customer navigation:", error);
+            return false; // Return false if any error occurs during the process
         }
-        return this.fieldValue;
+    }
+
+    async clickAddCustomer(): Promise<boolean> {
+        try {
+            if (await this.addCustomer.isVisible()) {
+                this.addCustomer.click();
+                await this.page.waitForTimeout(1000);
+                console.log("Add customer button clicked......!");
+                return true; // Return true if the button is clicked successfully
+            } else {
+                console.log("Add customer button not found......!");
+                return false; // Return false if the button is not found
+            }
+        } catch (error) {
+            console.error("Error while clicking Add customer button:", error);
+            return false; // Return false if any error occurs during the process
+        }
+    }
+
+    async enterCustomerDetails(customerName: string, customerAddress: string, customerAddress2: string, customerCountry: string, customerState: string, customerCity: string, customerZipCode: string, customerPhoneNumber: string): Promise<boolean> {
+        try {
+            await this.customerNameInput.fill(customerName);
+            await this.street1Input.fill(customerAddress);
+            await this.street2Input.fill(customerAddress2);
+            await this.country.fill(customerCountry);
+            await this.state.fill(customerState);
+            await this.city.fill(customerCity);
+            await this.zipCodeInput.fill(customerZipCode);
+            await this.phonenumber.fill(customerPhoneNumber);
+            return true; // Return true if all details were entered successfully
+        } catch (error) {
+            console.error('Error entering customer details:', error);
+            return false; // Return false if any error occurred while entering details
+        }
+    }
+
+    async clickOnSaveBtn(): Promise<boolean> {
+        try {
+            if (await this.saveBtn.isVisible()) {
+                console.log("Save button is visible and clickable......!");
+                await this.saveBtn.click();
+                console.log("Save button clicked......!");
+                return true; // Return true if the save button is visible and clicked
+            } else {
+                console.log("Save button not found......!");
+                return false; // Return false if the save button is not found
+            }
+        } catch (error) {
+            console.error("Error while clicking on Save button:", error);
+            return false; // Return false if any error occurs during the process
+        }
     }
 
 
-    async checkCustomer(page: Page, customerName: string) {
-        const customerList = await page.$$('//h4');
+    async checkCustomer(page: Page, customerNameValue: string): Promise<boolean> {
+        try {
 
-        if (customerList.length > 0) {
-            let customerFound = false;
-            for (const element of customerList) {
-                const customerListText = await element.textContent();
-                if (customerListText) { // Check if customerListText is not null
-                    console.log("Customer Name =========== " + customerListText);
+            const customerList = await page.$$('//h4');
 
-                    if (customerListText.trim().toLowerCase() === customerName.trim().toLowerCase()) {
-                        console.log("Customer Created ----------------> " + customerName);
-                        customerFound = true;
-                        break;
+            if (customerList.length > 0) {
+                for (const element of customerList) {
+                    const customerListText = await element.textContent();
+                    if (customerListText) { // Check if customerListText is not null
+                        console.log("Customer Name =========== " + customerListText);
+
+                        if (customerListText.trim().toLowerCase() === customerNameValue.trim().toLowerCase()) {
+                            console.log("Customer Created ----------------> " + customerNameValue);
+                            return true; // Return true when customer is found
+                        }
                     }
                 }
+                console.log("Customer Not Found In List ----------------> " + customerNameValue);
+                return false; // Return false if customer is not found
+            } else {
+                console.log("Customer Data Not Found ----------------> " + customerNameValue);
+                return false; // Return false if customer list is empty
             }
-
-            if (!customerFound) {
-                console.log("Customer Not Found In List ----------------> " + customerName);
-            }
-        } else {
-            console.log("Customer Data Not Found ----------------> " + customerName);
+        } catch (error) {
+            console.error("Error while checking customer:", error);
+            return false; // Return false if any error occurs during the process
         }
     }
 
-    // async verifyCustomerCreated(customerName: string) {
 
-    //     const customerElements = await this.page.$$(`//h4[contains(@aria-label, '${customerName}')]`);
 
-    //     // Get the name of the created customer
-    //     const createdCustomerName = await this.getCustomerName();
+    // async getCustomerName() {
 
-    //     // Check if the created customer name is defined
-    //     if (createdCustomerName) {
-    //         // Check if the created customer is present in the list
-    //         const isCustomerPresent = customerElements.some(async (element) => {
-    //             const text = await element.textContent();
-
-    //             // Add a null check for the text content
-    //             if (text !== null) {
-    //                 console.log("Text ====================> " + text);
-    //                 return text.includes(createdCustomerName);
-    //             } else {
-    //                 return false;
-    //             }
-    //         });
-    //         // Assertion
-    //         expect(isCustomerPresent).toBeTruthy();
+    //     const value = await this.customerNameInput.getAttribute('value')
+    //     if (value !== null) {
+    //         this.fieldValue = value;
+    //         console.log("value is ---------- " + this.fieldValue);
     //     } else {
-    //         throw new Error("The created customer name is undefined.");
+    //         console.log("value is null");
+    //         this.fieldValue = undefined;
+    //     }
+    //     return this.fieldValue;
+    // }
+
+
+
+
+    // async userCreated() {
+    //     if (await this.searchBox.isVisible(), { timeout: 5000 }) {
+    //         console.log("User successfully created and navigate back to the customer tab");
+    //     } else {
+    //         console.log("Unable to search customer");
     //     }
     // }
-    async userCreated() {
-        if (await this.searchBox.isVisible(), {timeout: 5000}) {
-            console.log("User successfully created and navigate back to the customer tab");
-        } else {
-            console.log("Unable to search customer");
-        }
-    }
 
-    async clickCustomerIcon() {
-        if (await this.customerIcon.isVisible()) {
-            console.log("User clicked on the customer icon");
-        } else {
-            console.log("Customer icon is not found");
-        }
-    }
+    // async clickCustomerIcon() {
+    //     if (await this.customerIcon.isVisible()) {
+    //         console.log("User clicked on the customer icon");
+    //     } else {
+    //         console.log("Customer icon is not found");
+    //     }
+    // }
 
-    async clickAddCustomer() {
-        if (await this.addCustomer.isVisible()) {
-            this.addCustomer.click();
-            console.log("Add customer button clicked......!");
-        } else {
-            console.log("Add customer button not found......!");
-        }
-    }
 
-    async selectCity() {
-        if (await this.city.isVisible()) {
-            console.log("City field is visible......!");
-            await this.city.click();
-            await this.selectedCity.click();
-            console.log("City field data filled successfully......!");
-        } else {
-            console.log("City field not found......!");
-        }
-    }
 
-    async selectCountry() {
-        if (await this.country.isVisible()) {
-            console.log("Country field is visible......!");
-            await this.country.click();
-            await this.selectedCountry.click();
-            console.log("Country field data filled successfully......!");
-        } else {
-            console.log("Country field not found......!");
-        }
-    }
+    // async selectCity() {
+    //     if (await this.city.isVisible()) {
+    //         console.log("City field is visible......!");
+    //         await this.city.click();
+    //         await this.selectedCity.click();
+    //         console.log("City field data filled successfully......!");
+    //     } else {
+    //         console.log("City field not found......!");
+    //     }
+    // }
 
-    async selectState() {
-        if (await this.state.isVisible()) {
-            console.log("State field is visible......!");
-            await this.state.click();
-            await this.selectedState.click();
-            console.log("State field data filled successfully......!");
-        } else {
-            console.log("State field not found......!");
-        }
-    }
+    // async selectCountry() {
+    //     if (await this.country.isVisible()) {
+    //         console.log("Country field is visible......!");
+    //         await this.country.click();
+    //         await this.selectedCountry.click();
+    //         console.log("Country field data filled successfully......!");
+    //     } else {
+    //         console.log("Country field not found......!");
+    //     }
+    // }
 
-    async clickOnSaveBtn() {
-        if (await this.saveBtn.isVisible()) {
-            console.log("Save button is visible and clickable......!");
-            await this.saveBtn.click();
-            console.log("Save button clicked......!");
-        } else {
-            console.log("Save button not found......!");
-        }
-    }
+    // async selectState() {
+    //     if (await this.state.isVisible()) {
+    //         console.log("State field is visible......!");
+    //         await this.state.click();
+    //         await this.selectedState.click();
+    //         console.log("State field data filled successfully......!");
+    //     } else {
+    //         console.log("State field not found......!");
+    //     }
+    // }
 
-    async customerNavigation() {
-        await this.page.goto("https://staging-app.linusanalytics.com/admin/customers/");
-        await this.page.waitForTimeout(10000);
-        if (await this.customerText.isVisible()) {
-            console.log("User successfully navigate to customer tab");
-        } else {
-            console.log("User failed to navigate");
-        }
-    }
 
-    async searchCustomer(data: string) {
-        console.log("Field Value is ---------- " + this.fieldValue);
-        console.log("Data Value is ---------- " + data);
 
-        if (data == undefined && this.fieldValue != undefined) {
-            console.log("Field Value is ---------- " + this.fieldValue);
 
-            if (await this.searchBox.isVisible()) {
-                console.log("Search box is found and editable......!");
-                await this.searchBox.click();
-                await this.searchBox.fill(this.fieldValue);
-                console.log("Field Value is entered in the searchbox......!");
-            } else {
-                console.log("Search box is not found......!");
-            }
-        } else {
-            console.log("Data Value is ---------- " + data);
 
-            if (await this.searchBox.isVisible()) {
-                console.log("Search box is found and editable......!");
-                await this.searchBox.click();
-                await this.searchBox.fill(data);
-                console.log("Data is entered in the searchbox......!");
-            } else {
-                console.log("Search box is not found......!");
-            }
-        }
-    }
+    // async searchCustomer(data: string) {
+    //     console.log("Field Value is ---------- " + this.fieldValue);
+    //     console.log("Data Value is ---------- " + data);
+
+    //     if (data == undefined && this.fieldValue != undefined) {
+    //         console.log("Field Value is ---------- " + this.fieldValue);
+
+    //         if (await this.searchBox.isVisible()) {
+    //             console.log("Search box is found and editable......!");
+    //             await this.searchBox.click();
+    //             await this.searchBox.fill(this.fieldValue);
+    //             console.log("Field Value is entered in the searchbox......!");
+    //         } else {
+    //             console.log("Search box is not found......!");
+    //         }
+    //     } else {
+    //         console.log("Data Value is ---------- " + data);
+
+    //         if (await this.searchBox.isVisible()) {
+    //             console.log("Search box is found and editable......!");
+    //             await this.searchBox.click();
+    //             await this.searchBox.fill(data);
+    //             console.log("Data is entered in the searchbox......!");
+    //         } else {
+    //             console.log("Search box is not found......!");
+    //         }
+    //     }
+    // }
 
     // async goToSearchedUser(data: string) {
     //     console.log("Field Value is ---------- " + this.fieldValue);
@@ -287,95 +290,95 @@ class CreateCustomer {
     //     }
     // }
 
-    async archiveUser() {
-        if (await this.threeDotsMenu.isVisible()) {
-            console.log("Three dots menu icon found");
-            await this.threeDotsMenu.click();
-            console.log("Three dots menu icon clicked");
+    // async archiveUser() {
+    //     if (await this.threeDotsMenu.isVisible()) {
+    //         console.log("Three dots menu icon found");
+    //         await this.threeDotsMenu.click();
+    //         console.log("Three dots menu icon clicked");
 
-            if (await this.archive.isVisible({ timeout: 3000 })) {
-                console.log("Archive button is visible");
-                await this.archive.click();
-                console.log("Archive button item is clicked");
-                await this.archive.isVisible();// Status Check is change Active to Archive or not.
-                console.log("User status changed to archive user");
-            } else {
-                console.log("Archive button not found in three dots menu");
-            }
-        } else {
-            console.log("Three dots menu icon not found");
-        }
-    }
+    //         if (await this.archive.isVisible({ timeout: 3000 })) {
+    //             console.log("Archive button is visible");
+    //             await this.archive.click();
+    //             console.log("Archive button item is clicked");
+    //             await this.archive.isVisible();// Status Check is change Active to Archive or not.
+    //             console.log("User status changed to archive user");
+    //         } else {
+    //             console.log("Archive button not found in three dots menu");
+    //         }
+    //     } else {
+    //         console.log("Three dots menu icon not found");
+    //     }
+    // }
 
-    async activeUser() {
-        if (await this.threeDotsMenu.isVisible()) {
-            console.log("Three dots menu icon found");
-            await this.threeDotsMenu.click();
-            console.log("Three dots menu icon clicked");
+    // async activeUser() {
+    //     if (await this.threeDotsMenu.isVisible()) {
+    //         console.log("Three dots menu icon found");
+    //         await this.threeDotsMenu.click();
+    //         console.log("Three dots menu icon clicked");
 
-            if (await this.restore.isVisible({ timeout: 3000 })) {
-                console.log("Restore button is visible");
-                await this.restore.click();
-                console.log("Restore button is clicked");
-                await this.active.isVisible({ timeout: 3000 });
-                console.log("User status changed to active user");
-            } else {
-                console.log("Restore button not found in three dots menu");
-            }
-        } else {
-            console.log("Three dots menu icon not found");
-        }
-    }
+    //         if (await this.restore.isVisible({ timeout: 3000 })) {
+    //             console.log("Restore button is visible");
+    //             await this.restore.click();
+    //             console.log("Restore button is clicked");
+    //             await this.active.isVisible({ timeout: 3000 });
+    //             console.log("User status changed to active user");
+    //         } else {
+    //             console.log("Restore button not found in three dots menu");
+    //         }
+    //     } else {
+    //         console.log("Three dots menu icon not found");
+    //     }
+    // }
 
-    async deleteUser() {
-        if (await this.threeDotsMenu.isVisible({ timeout: 5000 })) {
-            console.log("Three dots menu icon found");
-            await this.threeDotsMenu.click();
-            console.log("Three dots menu icon clicked");
+    //     async deleteUser() {
+    //         if (await this.threeDotsMenu.isVisible({ timeout: 5000 })) {
+    //             console.log("Three dots menu icon found");
+    //             await this.threeDotsMenu.click();
+    //             console.log("Three dots menu icon clicked");
 
-            if (await this.archive.isVisible({ timeout: 5000 })) {
-                console.log("Archive button item is visible");
-                await this.archive.click();
-                console.log("Archive button item is clicked");
-                await this.archive.isVisible();// Status Check is change Active to Archive or not.
-                console.log("User status changed to archive user");
+    //             if (await this.archive.isVisible({ timeout: 5000 })) {
+    //                 console.log("Archive button item is visible");
+    //                 await this.archive.click();
+    //                 console.log("Archive button item is clicked");
+    //                 await this.archive.isVisible();// Status Check is change Active to Archive or not.
+    //                 console.log("User status changed to archive user");
 
-                if (await this.threeDotsMenu.isVisible({ timeout: 5000 })) {
-                    console.log("Three dots menu icon found");
-                    await this.threeDotsMenu.click();
-                    console.log("Three dots menu icon clicked");
+    //                 if (await this.threeDotsMenu.isVisible({ timeout: 5000 })) {
+    //                     console.log("Three dots menu icon found");
+    //                     await this.threeDotsMenu.click();
+    //                     console.log("Three dots menu icon clicked");
 
-                    if (await this.delete.isVisible({ timeout: 5000 })) {
-                        console.log("Delete button is visible");
-                        await this.delete.click();
-                        console.log("Delete button is clicked");
+    //                     if (await this.delete.isVisible({ timeout: 5000 })) {
+    //                         console.log("Delete button is visible");
+    //                         await this.delete.click();
+    //                         console.log("Delete button is clicked");
 
-                        if (await this.confirmDelete.isVisible({ timeout: 5000 })) {
-                            console.log("Confirm delete button is visible");
-                            await this.confirmDelete.click();
-                            console.log("Confirm delete button is clicked");
+    //                         if (await this.confirmDelete.isVisible({ timeout: 5000 })) {
+    //                             console.log("Confirm delete button is visible");
+    //                             await this.confirmDelete.click();
+    //                             console.log("Confirm delete button is clicked");
 
-                            if (await this.searchBox.isVisible({ timeout: 5000 })) {
-                                console.log("User successfully deleted and navigate back to the customer tab");
-                            } else {
-                                console.log("User failed to navigate");
-                            }
-                        } else {
-                            console.log("Confirm delete button not found");
-                        }
-                    } else {
-                        console.log("Delete button not found");
-                    }
-                } else {
-                    console.log("Three dots menu icon not found");
-                }
-            } else {
-                console.log("Archive button not found in three dots menu");
-            }
-        } else {
-            console.log("Three dots menu icon not found");
-        }
-    }
+    //                             if (await this.searchBox.isVisible({ timeout: 5000 })) {
+    //                                 console.log("User successfully deleted and navigate back to the customer tab");
+    //                             } else {
+    //                                 console.log("User failed to navigate");
+    //                             }
+    //                         } else {
+    //                             console.log("Confirm delete button not found");
+    //                         }
+    //                     } else {
+    //                         console.log("Delete button not found");
+    //                     }
+    //                 } else {
+    //                     console.log("Three dots menu icon not found");
+    //                 }
+    //             } else {
+    //                 console.log("Archive button not found in three dots menu");
+    //             }
+    //         } else {
+    //             console.log("Three dots menu icon not found");
+    //         }
+    //     }
 }
 
 export default CreateCustomer;

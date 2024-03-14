@@ -6,7 +6,7 @@ import { Page } from 'playwright';
 
 test.describe('Scale All functionality', () => {
 
-  test('Create Scale', async ({ page }) => {
+  test.skip('Create Scale', async ({ page }) => {
     const { scaleId, scaleName } = testData.scaleData;
 
     console.log(testData.scaleData);

@@ -16,7 +16,6 @@ test.describe('Customers All functionality', () => {
     const customer = new CreateCustomer(page);
     await customer.customerNavigation();
     await customer.clickAddCustomer();
-    await page.waitForTimeout(3000);
     await customer.enterCustomerDetails(customerNameValue, customerAddress, customerAddress2, customerCountry, customerState, customerCity, customerZipCode, customerPhoneNumber);
     await customer.clickOnSaveBtn();
     await page.waitForTimeout(5000);
