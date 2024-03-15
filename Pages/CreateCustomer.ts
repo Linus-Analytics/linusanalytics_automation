@@ -135,7 +135,7 @@ class CreateCustomer {
                 for (const element of customerList) {
                     const customerListText = await element.textContent();
                     if (customerListText) { // Check if customerListText is not null
-                        console.log("Customer Name =========== " + customerListText);
+                        console.log("Customer Name ----------------> " + customerListText);
 
                         if (customerListText.trim().toLowerCase() === customerNameValue.trim().toLowerCase()) {
                             console.log("Customer Created ----------------> " + customerNameValue);

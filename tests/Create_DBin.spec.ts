@@ -6,9 +6,9 @@ import CreateBin from '../Pages/Createbin';
 
 const { binName,maxCapacity } = testData.binData;
 const customerNameValue: string = (globalThis as any).customerNameValue;
-const faciltiyNameValue: string = (globalThis as any).faciltiyNameValue;
+const facilityNameValue: string = (globalThis as any).facilityNameValue;
 const binNameValue = binName + '-' + customerNameValue;
-console.log(faciltiyNameValue)
+
 
 
 test.describe('Bin All functionality', () => {
@@ -20,7 +20,7 @@ test.describe('Bin All functionality', () => {
     await bin.clickAddBin();
     await bin.enterBinDetails(binNameValue, maxCapacity);
     await bin.clickBinCustomer(customerNameValue, page);
-    await bin.clickBinFacility(faciltiyNameValue, page);
+    await bin.clickBinFacility(facilityNameValue, page);
     await bin.clickonbinSavebtn();
   });
 

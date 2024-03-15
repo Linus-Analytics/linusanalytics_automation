@@ -6,7 +6,8 @@ import CreateFacility from '../Pages/CreateFacility';
 
 const { facilityName, contactName } = testData.facilityData;
 const customerNameValue: string = (globalThis as any).customerNameValue;
-const facilityNameValue = facilityName + '-' + customerNameValue
+const facilityNameValue = facilityName + '-' + customerNameValue;
+(globalThis as any).facilityNameValue = facilityNameValue;
 
 
 test.describe('Facility All functionality', () => {

@@ -10,7 +10,6 @@ interface FacilityData {
 
 class CreateFacility {
 
-
     private page: Page;
     private facilityicon: Locator;
     private Addfacility: Locator;
@@ -39,16 +38,7 @@ class CreateFacility {
         this.facilityText = page.locator("//*[contains(text(),'Add Facility')]");
         this.savebtn = page.locator("//*[contains(text(),'Save')]");
 
-        // this.country = page.locator("//div[@id='mui-component-select-country']");
-        // this.state = page.locator("//div[@id='mui-component-select-state']");
-        // this.city = page.locator("//div[@id='mui-component-select-city']");
-        // this.weight = page.locator("//div[@id='mui-component-select-weight']");
-        // this.selectedcountry = page.locator(`//li[@data-value="${facilityCountry}"]`);
-        // this.selectedstate = page.locator(`//li[@data-value="${facilityState}"]`);
-        // this.selectedcity = page.locator(`//li[@data-value="${facilityCity}"]`);
-        // this.selectedWeight = page.locator(`//li[@data-value="${facilityWeight}"]`);
     }
-
 
     async facilityNavigation(): Promise<boolean> {
         try {
@@ -83,28 +73,8 @@ class CreateFacility {
         await this.facilitynameInput.fill(facilityName);
         await this.contactName.fill(contactName);
         await this.btn_toggle.click()
-        // await this.street1Input.fill(facilityStreet1);
-        // await this.street2Input.fill(facilityStreet2);
-        // await this.zipcodeInput.fill(facilityZipCode);
+
     }
-
- 
-    
-
-    // async selectFacilityCountry() {
-    //     await this.country.click();
-    //     await this.selectedcountry.click();
-    // }
-
-    // async selectFacilityCity() {
-    //     await this.city.click();
-    //     await this.selectedcity.click();
-    // }
-
-    // async selecteFacilitystate() {
-    //     await this.state.click();
-    //     await this.selectedstate.click();
-    // }
 
     async clickFacilityCustomer(customerName: string, page: Page) {
         await this.customername.click();
@@ -113,17 +83,10 @@ class CreateFacility {
 
     }
 
-    // async selectFacilityweight() {
-    //     await this.weight.click();
-    //     await this.selectedWeight.click();
-    // }
-
     async clickonFacilitySavebtn() {
         await this.savebtn.click();
         console.log("Facility Created Successfully")
     }
-
-
 
 }
 

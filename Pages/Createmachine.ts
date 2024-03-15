@@ -1,42 +1,89 @@
-import testData from '../testData';
-import { Locator, Page, BrowserContext } from '@playwright/test';
+import { Locator, Page } from 'playwright';
 
+interface MachinetypeDate{
+
+    machinetypeName: string;
+}
 
 class CreateMachine {
     private page: Page;
-    private fieldValue: string | undefined;
-
-    private machineIcon: Locator;
-    private addMachine: Locator;
-    private machineNameInput: Locator;
-    private saveBtn: Locator;
-    private machineText: Locator;
-    private searchBox: Locator;
-    private searchedUser: Locator;
-    // private searchedDataUser: Locator;
-    private threeDotsMenu: Locator;
-    private archive: Locator;
-    private active: Locator;
-    private restore: Locator;
-    private delete: Locator;
-    private confirmDelete: Locator;
+    private AddMachine: Locator;
+    private customername: Locator;
+    private facilityname: Locator;
+    private MachineTypename: Locator;
+    private machinenameinput: Locator
+    selectCustomerName!: Locator;
+    selectFacilityName!: Locator;
+    selectMachineTypeName! : Locator;
+    private savebtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.machineIcon = page.locator('//p[contains(text(),"Machines")]/parent::div[@role="button"]');
-        this.addMachine = page.locator("//*[contains(text(),'Add Machine')]");
-        this.machineNameInput = page.locator("//input[@name='name']");
-        this.saveBtn = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-k2bprm']");
-        this.machineText = page.locator("//*[contains(text(),'Add Customer')]");
-        this.searchBox = page.locator(`//h4[@aria-label="${this.fieldValue}"]`);;
-        this.searchedUser = page.locator("//h4[@aria-label='${this.fieldValue}']");
-        //  this.searchedDataUser = page.locator(`//h4[@aria-label="${data}"]`);
-        this.threeDotsMenu = page.locator('//button[@class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1yxmbwk"]');
-        this.archive = page.locator("//*[contains(text(),'Archive')]");
-        this.active = page.locator("//*[contains(text(),'Active')]");
-        this.restore = page.locator("//*[contains(text(),'Restore')]");
-        this.delete = page.locator("//*[contains(text(),'Delete')]");
-        this.confirmDelete = page.locator("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth css-1o05m8h']");
+        this.AddMachine = page.locator("//*[contains(text(),'Add Machine')]");
+        this.customername = page.locator("//input[@id='customer']"); // /div/button/img[@src='/_next/static/media/select_arrow.b1f6ceaf.svg']
+        this.facilityname = page.locator("//input[@id='facility']");
+        this.MachineTypename = page.locator("//input[@id='machineType']");
+        this.machinenameinput = page.locator("//input[@name='name']");
+        this.savebtn = page.locator("//*[contains(text(),'Save')]");
     }
 
+    async MachineNavigation(): Promise<boolean> {
+        try {
+            await this.page.goto("https://staging-app.linusanalytics.com/admin/machines/");
+            // await this.page.waitForTimeout(10000);
+            if (await this.page.waitForSelector('//nav/div/div/div/div/p[contains(text(),"Machine")]', { state: 'visible' })) {
+                console.log("User navigates to Machine tab");
+                return true; // Return true if the Machine tab is visible
+            } else {
+                console.log("User failed to navigate to Machine tab");
+                return false; // Return false if the Machine tab is not visible
+            }
+        } catch (error) {
+            console.error("Error during Machine navigation:", error);
+            return false; // Return false if any error occurs during the process
+        }
+    }
+
+    async clickAddMachine(): Promise<boolean> {
+        try {
+            await this.AddMachine.click();
+            console.log("Add Machine button clicked......!");
+            return true; // Return true if the button is clicked successfully
+        } catch (error) {
+            console.error("Error while clicking on Add Machine button:", error);
+            return false; // Return false if any error occurs during the process
+        }
+    }
+
+    async clickMachineCustomer(customerNameValue: string, page: Page) {
+        await this.customername.click();
+        this.selectCustomerName = page.locator(`//ul[@id="customer-listbox"]/li/p[contains(text(),"${customerNameValue}")]`);
+        await this.selectCustomerName.click();
+
+    }
+
+    async clickMachineFacility(facilityNameValue: string, page: Page) {
+        await this.facilityname.click();
+        this.selectFacilityName = page.locator(`//ul[@id="facilities-listbox"]/li/div/div/div/p[1][contains(text(),"${facilityNameValue}")]`);
+        await this.selectFacilityName.click();  
+    }
+
+    async clickMachineMachineType(MachineTypeNameValue: string, page: Page) {
+        await this.MachineTypename.click();
+        this.selectMachineTypeName = page.locator(`//ul[@id="facilities-listbox"]/li/div/div/div/p[1][contains(text(),"${MachineTypeNameValue}")]`);
+        await this.selectMachineTypeName.click();  
+    }
+
+    async enterMachineDetails(machineNameValue: string ) {
+        await this.machinenameinput.fill(machineNameValue);
+    }
+
+    async clickonMachineSavebtn() {
+        await this.savebtn.click();
+        console.log("Machine Created Successfully")
+    }
+
+
 }
+
+export default CreateMachine;

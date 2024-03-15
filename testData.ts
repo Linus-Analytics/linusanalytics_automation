@@ -3,6 +3,15 @@ interface TestData {
     facilityData: FacilityData;
     scaleData: ScaleData;
     binData: binData;
+    commodityData: CommodityData;
+    machinetypeData: MachinetypeDate;
+    machineData: MachineData;
+
+}
+
+interface MachineData {
+    MachineName: string;
+    
 }
 
 interface CustomerData {
@@ -27,7 +36,6 @@ interface FacilityData {
 }
 
 interface ScaleData {
-    Id: string;
     scaleId: string;
     scaleName: string;
 }
@@ -39,8 +47,23 @@ interface binData{
     capacityThreshold: string;
 
 }
+interface CommodityData{
+
+    commodityName: string;
+}
+
+interface MachinetypeDate{
+
+    machinetypeName: string;
+}
 
 const testData: TestData = {
+
+    machineData:{
+
+        MachineName: "Machine",
+    },
+
 
     customerData: {
 
@@ -64,9 +87,8 @@ const testData: TestData = {
     },
     scaleData: {
 
-        Id: '12345',
-        scaleId: "13245",
-        scaleName: "Alex Scale"
+        scaleId: "SCa316Oye",
+        scaleName: "Scale"
     },
 
     binData: {
@@ -75,6 +97,15 @@ const testData: TestData = {
         maxCapacity: "5000",
         capacityThreshold: "80"
     },
+
+    commodityData:{
+        commodityName: "Natural Gas",
+    },
+
+    machinetypeData:{
+        machinetypeName: "Natural Gas",
+    },
+
 };
 
 export default testData;
