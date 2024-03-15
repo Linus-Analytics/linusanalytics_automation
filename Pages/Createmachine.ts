@@ -1,6 +1,6 @@
 import { Locator, Page } from 'playwright';
 
-interface MachinetypeDate{
+interface MachinetypeDate {
 
     machinetypeName: string;
 }

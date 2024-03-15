@@ -4,26 +4,23 @@ import createFacilityTests from './Create_Facility.spec';
 import createMachineTests from './Create_Machine.spec';
 import createBinTests from './Create_Bin.spec';
 import createScaleTests from './Create_Scale.spec';
-import createMachineTypeTests from './Create_Machine.spec';
-
+import createCommodityTests from './Create_Commodities.spec';
 
 
 
 test.describe('Customer Tests', () => {
     createCustomerTests();
-
-});
+ });
 
 test.describe('Commoditiy Tests', () => {
-    createFacilityTests();
+    createCommodityTests();
 
 });
 
+// test.describe('Machine Type Tests', () => {
+//     addMachineTypeTests();
 
-test.describe('Machine Type Tests', () => {
-    createMachineTypeTests();
-
-});
+// });
 
 test.describe('Facility Tests', () => {
     createFacilityTests();

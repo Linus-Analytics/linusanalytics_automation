@@ -6,7 +6,7 @@
   "scripts": {
     "test": "playwright test",
     "test:headed": "npx playwright test --project=chromium ./tests/Test-List.spec.ts --headed",
-    "test:headless": "npx playwright test --project=chromium ./tests/*.ts"
+    "test:headless": "npx playwright test --project=chromium ./tests/Test-List.spec.ts"
   },
   "keywords": [],
   "author": "",

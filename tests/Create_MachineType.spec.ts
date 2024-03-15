@@ -9,18 +9,18 @@ const customerNameValue: string = (globalThis as any).customerNameValue;
 const machinetype = machinetypeName + '-' + customerNameValue;
 (globalThis as any).machinetypeName = machinetypeName;
 
-export default function createMachineTypeTests() {
+export default function addMachineTypeTests() {
 
 test.describe('Machine Type All functionality', () => {
 
-  test('Create Commodity', async ({ page }) => {
+  test('Create Machine Type', async ({ page }) => {
 
-    const commodity = new CreateMachineType(page);
-    await commodity.MachineTypeNavigation();
-    await commodity.clickAddMachineType();
-    await commodity.enterMachineTypeDetails(machinetype);
-    await commodity.clickonMachineTypeSavebtn();
-    await commodity.MachineTypeNavigation();
+    const machineType = new CreateMachineType(page);
+    await machineType.MachineTypeNavigation();
+    await machineType.clickAddMachineType();
+    await machineType.enterMachineTypeDetails(machinetype);
+    await machineType.clickonMachineTypeSavebtn();
+    await machineType.MachineTypeNavigation();
   });
 
 });

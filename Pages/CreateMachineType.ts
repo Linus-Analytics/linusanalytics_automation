@@ -1,10 +1,5 @@
 import { Locator, Page } from '@playwright/test';
 
-interface commodityData {
-    commodityName: string;
-    
-}
-
 class CreateMachineType {
 
 
