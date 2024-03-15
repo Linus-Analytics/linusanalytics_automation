@@ -64,13 +64,13 @@ class CreateMachine {
 
     async clickMachineFacility(facilityNameValue: string, page: Page) {
         await this.facilityname.click();
-        this.selectFacilityName = page.locator(`//ul[@id="facilities-listbox"]/li/div/div/div/p[1][contains(text(),"${facilityNameValue}")]`);
+        this.selectFacilityName = page.locator(`//ul[@id="facility-listbox"]/li/div/div/div/p[contains(text(),"${facilityNameValue}")]`);
         await this.selectFacilityName.click();  
     }
 
     async clickMachineMachineType(MachineTypeNameValue: string, page: Page) {
         await this.MachineTypename.click();
-        this.selectMachineTypeName = page.locator(`//ul[@id="facilities-listbox"]/li/div/div/div/p[1][contains(text(),"${MachineTypeNameValue}")]`);
+        this.selectMachineTypeName = page.locator(`//ul[@id="machineType-listbox"]/li/p[contains(text(),"${MachineTypeNameValue}")]`);
         await this.selectMachineTypeName.click();  
     }
 

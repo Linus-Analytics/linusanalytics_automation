@@ -9,6 +9,7 @@ const customerNameValue: string = (globalThis as any).customerNameValue;
 const machinetype = machinetypeName + '-' + customerNameValue;
 (globalThis as any).machinetypeName = machinetypeName;
 
+export default function createMachineTypeTests() {
 
 test.describe('Machine Type All functionality', () => {
 
@@ -23,3 +24,4 @@ test.describe('Machine Type All functionality', () => {
   });
 
 });
+}

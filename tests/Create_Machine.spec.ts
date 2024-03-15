@@ -10,8 +10,7 @@ const facilityNameValue: string = (globalThis as any).facilityNameValue;
 const MachineTypeNameValue: string = (globalThis as any).MachineTypeNameValue;
 const machineNameValue = MachineName + '-' + customerNameValue;
 
-console.log(MachineTypeNameValue)
-
+export default function createMachineTests() {
 test.describe('Machine All functionality', () => {
 
   test('Create Machine', async ({ page }) => {
@@ -21,9 +20,11 @@ test.describe('Machine All functionality', () => {
     await machine.clickAddMachine();
     await machine.enterMachineDetails(machineNameValue);
     await machine.clickMachineCustomer(customerNameValue, page);
+
     await machine.clickMachineFacility(facilityNameValue, page);
     await machine.clickMachineMachineType(MachineTypeNameValue, page);
     await machine.clickonMachineSavebtn();
   });
 
 });
+}

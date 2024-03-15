@@ -9,7 +9,7 @@ const customerNameValue: string = (globalThis as any).customerNameValue;
 const facilityNameValue: string = (globalThis as any).facilityNameValue;
 const binNameValue = binName + '-' + customerNameValue;
 
-
+export default function createBinTests() {
 
 test.describe('Bin All functionality', () => {
 
@@ -25,3 +25,4 @@ test.describe('Bin All functionality', () => {
   });
 
 });
+}

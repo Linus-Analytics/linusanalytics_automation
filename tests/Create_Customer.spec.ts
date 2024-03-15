@@ -9,6 +9,8 @@ const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 100
 const customerNameValue = customerName + "-" + randomNumber;
 (globalThis as any).customerNameValue = customerNameValue;
 
+export default function createCustomerTests() {
+
 test.describe('Customers All functionality', () => {
 
   test('Create Customer', async ({ page }) => {
@@ -23,3 +25,4 @@ test.describe('Customers All functionality', () => {
 
   });
 });
+}

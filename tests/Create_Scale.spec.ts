@@ -9,6 +9,7 @@ const customerNameValue: string = (globalThis as any).customerNameValue;
 const facilityNameValue: string = (globalThis as any).facilityNameValue;
 const scaleNameValue = scaleName + '-' + customerNameValue;
 
+export default function createScaleTests() {
 
 test.describe('Scale All functionality', () => {
 
@@ -25,6 +26,7 @@ test.describe('Scale All functionality', () => {
 
 });
 
+}
 
 
 

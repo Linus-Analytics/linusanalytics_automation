@@ -8,6 +8,7 @@ const { commodityName } = testData.commodityData;
 const customerNameValue: string = (globalThis as any).customerNameValue;
 const commodityNameValue = commodityName + '-' + customerNameValue;
 
+export default function createCommodityTests() {
 
 test.describe('Commodity All functionality', () => {
 
@@ -22,3 +23,5 @@ test.describe('Commodity All functionality', () => {
   });
 
 });
+
+}
