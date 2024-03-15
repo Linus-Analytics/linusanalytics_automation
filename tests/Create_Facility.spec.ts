@@ -6,7 +6,8 @@ import CreateFacility from '../Pages/CreateFacility';
 
 const { facilityName, contactName } = testData.facilityData;
 const customerNameValue: string = (globalThis as any).customerNameValue;
-const facilityNameValue = facilityName + '-' + customerNameValue
+const facilityNameValue = customerNameValue + "-" + facilityName;
+(globalThis as any).facilityNameValue = facilityNameValue;
 
 
 test.describe('Facility All functionality', () => {
@@ -19,7 +20,6 @@ test.describe('Facility All functionality', () => {
     await facility.clickFacilityCustomer(customerNameValue, page);
     await facility.enterFacilityDetails(facilityNameValue, contactName);
     await facility.clickonFacilitySavebtn();
-    page.pause();
     await facility.facilityNavigation();
   });
 

@@ -79,8 +79,8 @@ class CreateFacility {
         }
     }
 
-    async enterFacilityDetails(facilityName: string, contactName: string) {
-        await this.facilitynameInput.fill(facilityName);
+    async enterFacilityDetails(facilityNameValue: string, contactName: string) {
+        await this.facilitynameInput.fill(facilityNameValue);
         await this.contactName.fill(contactName);
         await this.btn_toggle.click()
         // await this.street1Input.fill(facilityStreet1);
@@ -88,8 +88,8 @@ class CreateFacility {
         // await this.zipcodeInput.fill(facilityZipCode);
     }
 
- 
-    
+
+
 
     // async selectFacilityCountry() {
     //     await this.country.click();

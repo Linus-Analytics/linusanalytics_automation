@@ -1,6 +1,6 @@
 import { Locator, Page } from 'playwright';
 
-interface binData{
+interface binData {
 
     binName: string;
     maxCapacity: string;
@@ -74,10 +74,10 @@ class CreateBin {
     async clickBinFacility(facilityName: string, page: Page) {
         await this.facilityname.click();
         this.selectFacilityName = page.locator(`//ul[@id="facilities-listbox"]/li/div/div/div/p[1][contains(text(),"${facilityName}")]`);
-        await this.selectFacilityName.click();  
+        await this.selectFacilityName.click();
     }
 
-    async enterBinDetails(binNameValue: string, maxCapacity:string ) {
+    async enterBinDetails(binNameValue: string, maxCapacity: string) {
         await this.binnameinput.fill(binNameValue);
         await this.binmaxcapacity.fill(maxCapacity);
     }
