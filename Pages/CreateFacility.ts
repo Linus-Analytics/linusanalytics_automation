@@ -69,8 +69,8 @@ class CreateFacility {
         }
     }
 
-    async enterFacilityDetails(facilityName: string, contactName: string) {
-        await this.facilitynameInput.fill(facilityName);
+    async enterFacilityDetails(facilityNameValue: string, contactName: string) {
+        await this.facilitynameInput.fill(facilityNameValue);
         await this.contactName.fill(contactName);
         await this.btn_toggle.click()
 

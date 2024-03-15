@@ -4,7 +4,7 @@ import CreateBin from '../Pages/Createbin';
 
 
 
-const { binName,maxCapacity } = testData.binData;
+const { binName, maxCapacity } = testData.binData;
 const customerNameValue: string = (globalThis as any).customerNameValue;
 const facilityNameValue: string = (globalThis as any).facilityNameValue;
 const binNameValue = binName + '-' + customerNameValue;
