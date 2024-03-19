@@ -1,13 +1,21 @@
 # Linus-Analytics
-**Installation**
-npm install
+## Installation
 
-**Running the test**
-browser mode
-npm run test:headed
+```bash
+$ npm install
+```
+## Running the test
 
-headless mode
-npm run test:headless
+```bash
+# browser mode
+$ npm run test:headed
+```
+```bash
+# headless mode
+$ npm run test:headless
+```
 
-**View Results**
-npx playwright show-report
+## View Results
+```bash
+$ npx playwright show-report
+```
