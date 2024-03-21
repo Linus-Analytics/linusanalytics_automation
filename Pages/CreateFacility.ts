@@ -88,6 +88,36 @@ class CreateFacility {
         console.log("Facility Created Successfully")
     }
 
+
+    async verifyFacilityCreated(page: Page, facilityNameValue: string): Promise<boolean> {
+        try {
+
+            const facilityList = await page.$$('//h4');
+
+            if (facilityList.length > 0) {
+                for (const element of facilityList) {
+                    const facilityListText = await element.textContent();
+                    if (facilityListText) { // Check if facilityListText is not null
+                        console.log("Facility Name ----------------> " + facilityListText);
+
+                        if (facilityListText.trim().toLowerCase() === facilityNameValue.trim().toLowerCase()) {
+                            console.log("Facility Created ----------------> " + facilityNameValue);
+                            return true; // Return true when Facility is found
+                        }
+                    }
+                }
+                console.log("Facility Not Found In List ----------------> " + facilityNameValue);
+                return false; // Return false if Facility is not found
+            } else {
+                console.log("Facility Data Not Found ----------------> " + facilityNameValue);
+                return false; // Return false if Facility list is empty
+            }
+        } catch (error) {
+            console.error("Error while checking Facility:", error);
+            return false; // Return false if any error occurs during the process
+        }
+    }
+
 }
 
 export default CreateFacility;

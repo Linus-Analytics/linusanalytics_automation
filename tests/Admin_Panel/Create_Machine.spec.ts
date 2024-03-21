@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
-import testData from '../testData';
-import CreateMachine from '../Pages/CreateMachine';
+import testData from '../../testData';
+import CreateMachine from '../../Pages/CreateMachine';
 
 
 
@@ -11,7 +11,6 @@ const MachineTypeNameValue: string = (globalThis as any).MachineTypeNameValue;
 const machineNameValue = MachineName + '-' + customerNameValue;
 
 export default function createMachineTests() {
-test.describe('Machine All functionality', () => {
 
   test('Create Machine', async ({ page }) => {
 
@@ -26,5 +25,4 @@ test.describe('Machine All functionality', () => {
     await machine.clickonMachineSavebtn();
   });
 
-});
 }

@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
-import testData from '../testData';
-import CreateBin from '../Pages/Createbin';
+import testData from '../../testData';
+import CreateBin from '../../Pages/Createbin';
 
 
 
@@ -11,10 +11,8 @@ const binNameValue = binName + '-' + customerNameValue;
 
 export default function createBinTests() {
 
-test.describe('Bin All functionality', () => {
 
   test('Create Bin', async ({ page }) => {
-
     const bin = new CreateBin(page);
     await bin.binNavigation();
     await bin.clickAddBin();
@@ -23,6 +21,4 @@ test.describe('Bin All functionality', () => {
     await bin.clickBinFacility(facilityNameValue, page);
     await bin.clickonbinSavebtn();
   });
-
-});
 }

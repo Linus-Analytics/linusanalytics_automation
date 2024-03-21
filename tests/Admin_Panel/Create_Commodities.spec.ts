@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
-import testData from '../testData';
-import CreateCommodity from '../Pages/CreateCommodity';
+import testData from '../../testData';
+import CreateCommodity from '../../Pages/CreateCommodity';
 
 
 
@@ -9,8 +9,6 @@ const customerNameValue: string = (globalThis as any).customerNameValue;
 const commodityNameValue = commodityName + '-' + customerNameValue;
 
 export default function createCommodityTests() {
-
-test.describe('Commodity All functionality', () => {
 
   test('Create Commodity', async ({ page }) => {
 
@@ -21,7 +19,5 @@ test.describe('Commodity All functionality', () => {
     await commodity.clickonCommoditySavebtn();
     await commodity.commodityNavigation();
   });
-
-});
 
 }

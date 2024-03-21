@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
-import testData from '../testData';
-import CreateScale from '../Pages/CreateScale';
+import testData from '../../testData';
+import CreateScale from '../../Pages/CreateScale';
 
 
 
@@ -10,8 +10,6 @@ const facilityNameValue: string = (globalThis as any).facilityNameValue;
 const scaleNameValue = scaleName + '-' + customerNameValue;
 
 export default function createScaleTests() {
-
-test.describe('Scale All functionality', () => {
 
   test('Create Scale', async ({ page }) => {
 
@@ -23,9 +21,6 @@ test.describe('Scale All functionality', () => {
     await Scale.clickScaleFacility(facilityNameValue, page);
     await Scale.clickonScaleSavebtn();
   });
-
-});
-
 }
 
 

@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
-import testData from '../testData';
-import CreateMachineType from '../Pages/CreateMachineType';
+import testData from '../../testData';
+import CreateMachineType from '../../Pages/CreateMachineType';
 
 
 
@@ -11,8 +11,6 @@ const machinetype = machinetypeName + '-' + customerNameValue;
 
 export default function addMachineTypeTests() {
 
-test.describe('Machine Type All functionality', () => {
-
   test('Create Machine Type', async ({ page }) => {
 
     const machineType = new CreateMachineType(page);
@@ -22,6 +20,4 @@ test.describe('Machine Type All functionality', () => {
     await machineType.clickonMachineTypeSavebtn();
     await machineType.MachineTypeNavigation();
   });
-
-});
 }
