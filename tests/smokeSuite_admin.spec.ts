@@ -51,8 +51,6 @@ test.describe('Test with Admin Credentials', async () => {
         const customerNameValue = customerName + "-" + randomNumber;
         (globalThis as any).customerNameValue = customerNameValue;
 
-
-
         await customer.addCustomer(customerNameValue, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber);
         await customer.checkCustomer(customerNameValue);
     });
