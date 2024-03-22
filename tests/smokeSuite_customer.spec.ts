@@ -1,18 +1,19 @@
-import { test, chromium } from '@playwright/test';
-import CreateCustomer from '../Pages/CreateCustomer';
+import { test, chromium, Page } from '@playwright/test';
 import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
 import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 import axios from 'axios';
-import CreateFacility from '../Pages/CreateFacility';
+import CreateScale_Cl from '../Pages/Customer_Panel/Create_Scale_CL';
+import CreateScale from '../Pages/Admin_Panel/CreateScale';
 
 test.describe('Customer Panel', async () => {
     let browser
     let context;
-    let page;
-    let customer: CreateCustomer;
+    let page: Page;
+    // let customer: CreateCustomer;
     let login: LoginPage;
-    let facility: CreateFacility;
+    // let facility: CreateFacility;
+    let scale: CreateScale_Cl;
 
     test.beforeAll(async () => {
         browser = await chromium.launch({
@@ -21,11 +22,12 @@ test.describe('Customer Panel', async () => {
         context = await browser.newContext();
         page = await context.newPage();
         login = new LoginPage(page);
-        customer = new CreateCustomer(page);
-        facility = new CreateFacility(page);
+        // customer = new CreateCustomer(page);
+        // facility = new CreateFacility(page);
+        scale = new CreateScale_Cl(page);
 
 
-        const username = "linusqa@yopmail.com";
+        const username = "dell@yopmail.com";
         const password = "P@ss1234";
         const url = "https://staging-app.linusanalytics.com";
         const maxRetries = 3;
@@ -45,13 +47,25 @@ test.describe('Customer Panel', async () => {
         await login.login(url, username, password);
     });
 
-    test('Create Customer', async () => {
+    // test('Create Customer', async () => {
 
-    });
+    // });
 
-    test('Create Facility', async () => {
+    // test('Create Facility', async () => {
+
+    // });
+
+    test('Create Scale', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const {scaleId,scaleName} = testData.scaleData;
+        const scaleNameValue = customerNameValue + "-" + scaleName;
+        (globalThis as any).scaleNameValue = scaleNameValue;
 
 
+        await scale.scaleNavigation();
+        await scale.verifyscale(page,'Scale Name');
 
     });
 

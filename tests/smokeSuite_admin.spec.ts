@@ -1,10 +1,11 @@
 import { test, chromium } from '@playwright/test';
-import CreateCustomer from '../Pages/CreateCustomer';
+import CreateCustomer from '../Pages/Admin_Panel/CreateCustomer';
 import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
 import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 import axios from 'axios';
-import CreateFacility from '../Pages/CreateFacility';
+import CreateFacility from '../Pages/Admin_Panel/CreateFacility';
+import CreateScale from '../Pages/Admin_Panel/CreateScale';
 
 test.describe('Test with Admin Credentials', async () => {
     let browser
@@ -13,6 +14,7 @@ test.describe('Test with Admin Credentials', async () => {
     let customer: CreateCustomer;
     let login: LoginPage;
     let facility: CreateFacility;
+    let scale: CreateScale;
 
     test.beforeAll(async () => {
         browser = await chromium.launch({
@@ -23,6 +25,7 @@ test.describe('Test with Admin Credentials', async () => {
         login = new LoginPage(page);
         customer = new CreateCustomer(page);
         facility = new CreateFacility(page);
+        scale = new CreateScale(page);
 
 
         const username = "linusqa@yopmail.com";
@@ -52,20 +55,42 @@ test.describe('Test with Admin Credentials', async () => {
         (globalThis as any).customerNameValue = customerNameValue;
 
 
-
         await customer.addCustomer(customerNameValue, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber);
         await customer.checkCustomer(customerNameValue);
     });
 
+
     test('Create Facility', async () => {
 
-        // await facility.facilityNavigation();
-        // await facility.clickAddFacility();
-        // await facility.clickFacilityCustomer(customerNameValue, page);
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const {facilityName,contactName } = testData.facilityData;
+        const facilityNameValue = customerNameValue + "-" + facilityName;
+        (globalThis as any).facilityNameValue = facilityNameValue;
+
+
+        await facility.facilityNavigation();
+        await facility.addFacility(customerNameValue,facilityNameValue,contactName);
+
+        await facility.checkfacility(facilityNameValue);
         // await facility.enterFacilityDetails(facilityNameValue, contactName);
         // await facility.clickonFacilitySavebtn();
         // await facility.verifyFacilityCreated(page, facilityNameValue);
 
+    });
+
+    test('Create Scale', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const {scaleId,scaleName} = testData.scaleData;
+        const scaleNameValue = customerNameValue + "-" + scaleName;
+        (globalThis as any).scaleNameValue = scaleNameValue;
+
+
+        await scale.scaleNavigation();
+        await scale.addScale(customerNameValue,facilityNameValue,scaleId,scaleNameValue);
+        await scale.checkscale(scaleNameValue);
+        
     });
 
     // test.afterAll(async () => {

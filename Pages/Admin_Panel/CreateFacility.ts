@@ -55,6 +55,7 @@ class CreateFacility {
 
             console.log("Success entering Facility details");
 
+            await this.page.waitForTimeout(5000);
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding Facility:', error);

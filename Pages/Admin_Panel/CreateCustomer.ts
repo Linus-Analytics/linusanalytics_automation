@@ -63,6 +63,7 @@ class CreateCustomer {
             await this.page.getByRole('button', { name: 'Save' }).click();
 
             console.log("Success entering customer details");
+            await this.page.waitForTimeout(5000);
 
             return true; // Return true if all details were entered successfully
         } catch (error) {

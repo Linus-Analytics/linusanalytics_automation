@@ -12,8 +12,8 @@ class CreateScale {
         try {
 
             await this.page.getByRole('button', { name: 'Scales-icon Scales' }).click();
-            let expectedURL = 'https://staging-app.linusanalytics.com/admin/scales'
-            await this.verifyNavigation(expectedURL)
+            let expectedURL = 'https://staging-app.linusanalytics.com/admin/scales';
+            await this.verifyNavigation(expectedURL);
             console.log('Successfully navigated to Scales tab');
             return true; // Return true if all details were entered successfully
         } catch (error) {
@@ -42,7 +42,7 @@ class CreateScale {
             await this.page.getByRole('option', { name: customerName }).click();
 
             await this.page.getByPlaceholder('Select Facility').click();
-            await this.page.getByText(facilityName).click();
+            await this.page.getByRole('option', { name: facilityName }).locator('div').first().click();
 
             await this.page.getByLabel('ID').click();
             await this.page.getByLabel('ID').fill(scaleId);
@@ -52,6 +52,7 @@ class CreateScale {
 
             await this.page.getByRole('button', { name: 'Save' }).click();
 
+            await this.page.waitForTimeout(5000);
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding Scale:', error);
