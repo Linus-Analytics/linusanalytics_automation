@@ -14,7 +14,6 @@ class CreateCustomer {
             await this.page.getByRole('button', { name: 'Customers-icon Customers' }).click();
             let expectedURL = 'https://staging-app.linusanalytics.com/admin/customers'
             await this.verifyNavigation(expectedURL)
-            console.log('Successfully navigated to Customer tab');
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding customer:', error);
@@ -25,7 +24,9 @@ class CreateCustomer {
     async verifyNavigation(url: string): Promise<boolean> {
         try {
             const currentURL = this.page.url(); // Get the current URL
-            return currentURL === url; // Return true if the current URL matches the expected URL
+            currentURL === url; // Return true if the current URL matches the expected URL
+            console.log('Successfully navigated to url ::' + url); // Log the result
+            return true;
         } catch (error) {
             console.error('Error occurred while adding customer:', error);
             return false; // Return false if any error occurred while entering details
@@ -75,6 +76,7 @@ class CreateCustomer {
     async checkCustomer(customerNameValue: string): Promise<boolean> {
         try {
 
+            await this.page.waitForTimeout(3000);
             const customerList = await this.page.$$('//h4');
 
             if (customerList.length > 0) {

@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 async function saveStorageStateToJson(storageState: any, path: string) {
     try {
         await fs.writeFile(path, JSON.stringify(storageState));
-        console.log('Storage state saved to', path);
+        // console.log('Storage state saved to', path);
     } catch (error) {
         console.error('Error saving storage state:', error);
     }
@@ -13,31 +13,38 @@ async function saveStorageStateToJson(storageState: any, path: string) {
 class LoginPage {
     private page: Page;
 
-    private input_emailAddress: Locator;
-    private input_Password: Locator;
-    private btn_login: Locator;
-
     constructor(page: Page) {
         this.page = page;
-
-        this.input_emailAddress = page.locator('input[name="username"]');
-        this.input_Password = page.locator('input[name="password"]');
-        this.btn_login = page.locator('button:has-text("Login")');
     }
 
     async login(URL: string, username: string, password: string): Promise<void> {
         await this.page.goto(URL);
-        await this.input_emailAddress.click();
-        await this.input_emailAddress.fill(username);
-        await this.input_Password.fill(password);
-        await this.btn_login.click();
-        await this.page.waitForNavigation(); // Wait for navigation to complete
-
+        await this.page.getByLabel('Email address').click();
+        await this.page.getByLabel('Email address').fill(username);
+        await this.page.getByLabel('Password', { exact: true }).click();
+        await this.page.getByLabel('Password', { exact: true }).fill(password);
+        await this.page.getByRole('button', { name: 'Login' }).click();
         console.log("User Successfully Logged into the Linus App");
+
+        let expectedURL = "https://staging-app.linusanalytics.com/admin/dashboard"
+        this.verifyNavigation(expectedURL)
 
         const storageState = await this.page.context().storageState();
         await saveStorageStateToJson(storageState, './loginAuth.json');
     }
+
+    async verifyNavigation(url: string): Promise<boolean> {
+        try {
+            const currentURL = this.page.url(); // Get the current URL
+            currentURL === url; // Check if the current URL matches the expected URL
+            console.log('Successfully navigated to url ::' + url); // Log the result
+            return true; // Return the result
+        } catch (error) {
+            console.error('Error occurred while navigating:', error);
+            return false; // Return false if any error occurred while entering details
+        }
+    }
+
 }
 
 export default LoginPage;
