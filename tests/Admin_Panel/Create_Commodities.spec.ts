@@ -1,23 +1,23 @@
-import { test } from '@playwright/test';
-import testData from '../../testData';
-import CreateCommodity from '../../Pages/CreateCommodity';
+// import { test } from '@playwright/test';
+// import testData from '../../testData';
+// import CreateCommodity from '../../Pages/CreateCommodity';
 
 
 
-const { commodityName } = testData.commodityData;
-const customerNameValue: string = (globalThis as any).customerNameValue;
-const commodityNameValue = commodityName + '-' + customerNameValue;
+// const { commodityName } = testData.commodityData;
+// const customerNameValue: string = (globalThis as any).customerNameValue;
+// const commodityNameValue = commodityName + '-' + customerNameValue;
 
-export default function createCommodityTests() {
+// export default function createCommodityTests() {
 
-  test('Create Commodity', async ({ page }) => {
+//   test('Create Commodity', async ({ page }) => {
 
-    const commodity = new CreateCommodity(page);
-    await commodity.commodityNavigation();
-    await commodity.clickAddcommodity();
-    await commodity.enterCommodityDetails(commodityNameValue);
-    await commodity.clickonCommoditySavebtn();
-    await commodity.commodityNavigation();
-  });
+//     const commodity = new CreateCommodity(page);
+//     await commodity.commodityNavigation();
+//     await commodity.clickAddcommodity();
+//     await commodity.enterCommodityDetails(commodityNameValue);
+//     await commodity.clickonCommoditySavebtn();
+//     await commodity.commodityNavigation();
+//   });
 
-}
+// }

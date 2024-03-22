@@ -11,18 +11,18 @@ interface TestData {
 
 interface MachineData {
     MachineName: string;
-    
+
 }
 
 interface CustomerData {
     customerName: string;
-    customerAddress: string;
-    customerAddress2: string;
-    customerCountry: string;
-    customerState: string;
-    customerCity: string;
-    customerZipCode: string;
-    customerPhoneNumber: string;
+    streetAddress1: string;
+    streetAddress2: string;
+    countryName: string;
+    state: string;
+    city: string;
+    zipCode: string;
+    phoneNumber: string;
 }
 
 interface FacilityData {
@@ -40,41 +40,40 @@ interface ScaleData {
     scaleName: string;
 }
 
-interface binData{
+interface binData {
 
     binName: string;
     maxCapacity: string;
     capacityThreshold: string;
 
 }
-interface CommodityData{
+interface CommodityData {
 
     commodityName: string;
 }
 
-interface MachinetypeDate{
+interface MachinetypeDate {
 
     machinetypeName: string;
 }
 
 const testData: TestData = {
 
-    machineData:{
+    machineData: {
 
         MachineName: "Machine",
     },
 
-
     customerData: {
 
-        customerName: 'Abraham',
-        customerAddress: '2F, 4035-1 Ikenobecho, Tsuzuki-ku, Yokohama',
-        customerAddress2: '47 W 13th St, New York, NY 10011',
-        customerCountry: 'Japan',
-        customerState: 'Kanagawa Prefecture',
-        customerCity: 'Yokohama',
-        customerZipCode: '2200001',
-        customerPhoneNumber: '+1(926) 221-0824',
+        customerName: 'Auto',
+        streetAddress1: '401 26th St',
+        streetAddress2: '',
+        countryName: 'United States',
+        state: 'California',
+        city: 'Oakland',
+        zipCode: '94612',
+        phoneNumber: '+1(510) 251-8009',
     },
     facilityData: {
         facilityName: "Facility",
@@ -98,11 +97,11 @@ const testData: TestData = {
         capacityThreshold: "80"
     },
 
-    commodityData:{
+    commodityData: {
         commodityName: "Natural Gas",
     },
 
-    machinetypeData:{
+    machinetypeData: {
         machinetypeName: "Natural Gas",
     },
 

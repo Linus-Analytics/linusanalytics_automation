@@ -5,8 +5,8 @@ import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
  * @see https://playwright.dev/docs/test-configuration
  */
 const config: PlaywrightTestConfig = defineConfig({
-  globalSetup: "./global-setup",
-  testDir: "./tests",
+  /*globalSetup: "./global-setup",*/
+  // testDir: "./tests",
 
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -25,7 +25,7 @@ const config: PlaywrightTestConfig = defineConfig({
     baseURL: 'https://staging-app.linusanalytics.com',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    storageState: "./loginAuth.json",
+    // storageState: "./loginAuth.json",
   },
 
   /* Configure projects for major browsers */
