@@ -78,11 +78,11 @@ const testData: TestData = {
     facilityData: {
         facilityName: "Facility",
         contactName: "Mavric",
-        facilityCity: 'Kabul',
-        facilityCountry: 'Afghanistan',
-        facilityState: 'Kabul',
-        facilityZipCode: "3456463",
-        facilityWeight: "10 kg"
+        facilityCity: '',
+        facilityCountry: '',
+        facilityState: '',
+        facilityZipCode: "",
+        facilityWeight: ""
     },
     scaleData: {
 

@@ -31,6 +31,7 @@ class CreateCustomer {
             return false; // Return false if any error occurred while entering details
         }
     }
+    
     async addCustomer(customerName: string, C_streetAddress1: string, C_streetAddress2: string, C_countryName: string, C_state: string, C_city: string, C_zipCode: string, C_phoneNumber: string): Promise<boolean> {
         try {
             await this.customerNavigation();
