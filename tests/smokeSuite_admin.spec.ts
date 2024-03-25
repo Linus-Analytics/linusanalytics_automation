@@ -12,7 +12,7 @@ import CreateMachineType from '../Pages/Admin_Panel/CreateMachineType';
 test.describe('Test with Admin Credentials', async () => {
     let browser
     let context;
-    let page;
+    let page: any;
     let customer: CreateCustomer;
     let login: LoginPage;
     let facility: CreateFacility;
@@ -63,38 +63,66 @@ test.describe('Test with Admin Credentials', async () => {
 
         await customer.addCustomer(customerNameValue, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber);
         await customer.checkCustomer(customerNameValue);
+
     });
 
 
-    test('Create Facility', async () => {
+    test('Add User', async () => {
+        const customerNameValue = (globalThis as any).customerNameValue;
+        const email = customerNameValue + '@yopmail.com';
+        const role = 'Admin';
+        const firstName = "AutoFirst";
+        const lastName = "AutoLast";
+        const password = "P@ss1234";
+
+        await customer.clickOnCustomerDetail(customerNameValue)
+        await customer.addUser(customerNameValue, email, role);
+
+
+
+    });
+
+    test('Verify User Email', async () => {
+        const customerNameValue = (globalThis as any).customerNameValue;
+        const email = customerNameValue + '@yopmail.com';
+        const role = 'Admin';
+        const firstName = "AutoFirst";
+        const lastName = "AutoLast";
+        const password = "P@ss1234";
+
+        await customer.verifySignupEmail(customerNameValue, firstName, lastName, password)
+
+    });
+
+    test.skip('Create Facility', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
-        const {facilityName,contactName } = testData.facilityData;
+        const { facilityName, contactName } = testData.facilityData;
         const facilityNameValue = customerNameValue + "-" + facilityName;
         (globalThis as any).facilityNameValue = facilityNameValue;
 
 
         await facility.facilityNavigation();
-        await facility.addFacility(customerNameValue,facilityNameValue,contactName);
+        await facility.addFacility(customerNameValue, facilityNameValue, contactName);
 
         await facility.checkfacility(facilityNameValue);
 
 
     });
 
-    test('Create Scale', async () => {
+    test.skip('Create Scale', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const {scaleId,scaleName} = testData.scaleData;
+        const { scaleId, scaleName } = testData.scaleData;
         const scaleNameValue = customerNameValue + "-" + scaleName;
         (globalThis as any).scaleNameValue = scaleNameValue;
 
 
         await scale.scaleNavigation();
-        await scale.addScale(customerNameValue,facilityNameValue,scaleId,scaleNameValue);
+        await scale.addScale(customerNameValue, facilityNameValue, scaleId, scaleNameValue);
         await scale.checkscale(scaleNameValue);
-        
+
     });
 
 

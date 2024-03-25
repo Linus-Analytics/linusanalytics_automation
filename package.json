@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "test:headed": "npx playwright test --project=chromium ./tests/*.spec.ts --headed",
+    "test:headed": "npx playwright test --project=chromium ./tests/smokeSuite_admin.spec.ts --headed",
     "test:headless": "npx playwright test --project=chromium ./tests/Test-List.spec.ts"
   },
   "keywords": [],
