@@ -14,7 +14,7 @@ class CreateFacility {
             await this.page.getByRole('button', { name: 'Facilities-icon Facilities' }).click();
             let expectedURL = 'https://staging-app.linusanalytics.com/admin/facilities'
             await this.verifyNavigation(expectedURL)
-            console.log('Successfully navigated to Facility tab');
+            // console.log('Successfully navigated to Facility tab');
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding Facility:', error);

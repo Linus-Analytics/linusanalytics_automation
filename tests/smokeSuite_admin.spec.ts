@@ -6,6 +6,8 @@ import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 import axios from 'axios';
 import CreateFacility from '../Pages/Admin_Panel/CreateFacility';
 import CreateScale from '../Pages/Admin_Panel/CreateScale';
+import CreateBin from '../Pages/Admin_Panel/Createbin';
+import CreateMachineType from '../Pages/Admin_Panel/CreateMachineType';
 
 test.describe('Test with Admin Credentials', async () => {
     let browser
@@ -15,6 +17,8 @@ test.describe('Test with Admin Credentials', async () => {
     let login: LoginPage;
     let facility: CreateFacility;
     let scale: CreateScale;
+    let bin: CreateBin;
+    let machinetype: CreateMachineType;
 
     test.beforeAll(async () => {
         browser = await chromium.launch({
@@ -26,6 +30,8 @@ test.describe('Test with Admin Credentials', async () => {
         customer = new CreateCustomer(page);
         facility = new CreateFacility(page);
         scale = new CreateScale(page);
+        bin = new CreateBin(page);
+        machinetype = new CreateMachineType(page);
 
 
         const username = "linusqa@yopmail.com";
@@ -72,9 +78,7 @@ test.describe('Test with Admin Credentials', async () => {
         await facility.addFacility(customerNameValue,facilityNameValue,contactName);
 
         await facility.checkfacility(facilityNameValue);
-        // await facility.enterFacilityDetails(facilityNameValue, contactName);
-        // await facility.clickonFacilitySavebtn();
-        // await facility.verifyFacilityCreated(page, facilityNameValue);
+
 
     });
 
@@ -92,6 +96,39 @@ test.describe('Test with Admin Credentials', async () => {
         await scale.checkscale(scaleNameValue);
         
     });
+
+
+    test('Create Bin', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const {binName,maxCapacity,capacityThreshold} = testData.binData;
+        const binNameValue = customerNameValue + "-" + binName;
+        (globalThis as any).binNameValue = binNameValue;
+
+
+        await bin.binNavigation();
+        await bin.addBin(customerNameValue,facilityNameValue,binNameValue,maxCapacity);
+        await bin.checkbin(binNameValue);
+        
+    });
+
+    test('Create Machine Type', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const {machinetypeName} = testData.machinetypeData;
+        const machinetypeNameValue = customerNameValue + "-" + machinetypeName;
+        (globalThis as any).machinetypeNameValue = machinetypeNameValue;
+
+
+        await machinetype.machinetypeNavigation();
+        await machinetype.addMachineType(machinetypeNameValue);
+        await machinetype.checkmachinetype(machinetypeNameValue);
+        
+    });
+
+
+
 
     // test.afterAll(async () => {
     //     await browser.close();

@@ -14,7 +14,7 @@ class CreateScale {
             await this.page.getByRole('button', { name: 'Scales-icon Scales' }).click();
             let expectedURL = 'https://staging-app.linusanalytics.com/admin/scales';
             await this.verifyNavigation(expectedURL);
-            console.log('Successfully navigated to Scales tab');
+            // console.log('Successfully navigated to Scales tab');
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding Scales:', error);
