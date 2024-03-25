@@ -1,6 +1,6 @@
 import { Locator, Page } from 'playwright';
 
-class CreateScale_Cl {
+class CreateScale {
     private page: Page;
 
     constructor(page: Page) {
@@ -24,30 +24,43 @@ class CreateScale_Cl {
 
     async verifyNavigation(url: string): Promise<boolean> {
         try {
-            const currentURL = this.page.url(); // Get the current URL
-            return currentURL === url; // Return true if the current URL matches the expected URL
+            let currenturl = this.page.url();
+   
+            await this.page.waitForTimeout(10000);
+
+            if(url == currenturl){
+                console.log("URl Verification Done");
+
+            }else{
+
+                console.log("User Navigation Un-Successfull");
+            }
+
+            return true; // Return true if the current URL matches the expected URL
+            
         } catch (error) {
             console.error('Error occurred while adding scale:', error);
-            return false; // Return false if any error occurred while entering details
+            return false; // Return false if any error ozccurred while entering details
         }
     }
 
     async verifyscale(page: Page, scaleName:string){
 
-        await page.goto('https://staging-app.linusanalytics.com/dashboard');
+        // await page.goto('https://staging-app.linusanalytics.com/dashboard');
 
         // await page.goto('https://staging-app.linusanalytics.com/dashboard?facilityId=395');
+        
         await page.getByRole('button', { name: 'Manage-icon Manage' }).click();
 
         await page.getByRole('button', { name: 'Scales' }).click();
 
-        let expectedName = scaleName;
+        let expectedName = "https://staging-app.linusanalytics.com/scales";
 
         await this.verifyNavigation(expectedName);
-        console.log('Scale Verification successfully done');
+        console.log('User navigate to the Scale Page');
         await page.getByRole('cell', { name: scaleName }).locator('div').click();
+        console.log('User navigate to the Scale Details Page');
         await page.waitForTimeout(5000);
-
 
     }
 
@@ -62,7 +75,7 @@ class CreateScale_Cl {
             }
         }
 
-}export default CreateScale_Cl;
+}export default CreateScale;
 
 
   

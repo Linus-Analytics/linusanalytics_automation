@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import testData from '../testData';
-import CreateScale_Cl from '../Pages/Customer_Panel/Create_Scale_CL';
+import CreateScale_Cl from '../Pages/Customer_Panel/Create_Scale';
 
 
 

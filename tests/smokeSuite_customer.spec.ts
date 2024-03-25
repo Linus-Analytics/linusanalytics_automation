@@ -3,7 +3,7 @@ import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
 import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 import axios from 'axios';
-import CreateScale_Cl from '../Pages/Customer_Panel/Create_Scale_CL';
+import CreateScale_Cl from '../Pages/Customer_Panel/Create_Scale';
 import CreateScale from '../Pages/Admin_Panel/CreateScale';
 
 test.describe('Customer Panel', async () => {
@@ -63,9 +63,19 @@ test.describe('Customer Panel', async () => {
         const scaleNameValue = customerNameValue + "-" + scaleName;
         (globalThis as any).scaleNameValue = scaleNameValue;
 
+        await scale.verifyscale(page,"UK Scale");
 
-        await scale.scaleNavigation();
-        await scale.verifyscale(page,'Scale Name');
+    });
+
+    test('Create Bin', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const {binName,maxCapacity, capacityThreshold} = testData.binData;
+        const binNameValue = customerNameValue + "-" + binName;
+        (globalThis as any).binNameValue = binNameValue;
+
+        await scale.verifyscale(page,"UK Bin");
 
     });
 
