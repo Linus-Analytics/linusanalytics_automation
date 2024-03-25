@@ -1,4 +1,5 @@
-import { Locator, Page } from 'playwright';
+import { Page } from 'playwright';
+import { expect } from 'playwright/test';
 
 class CreateScale {
     private page: Page;
@@ -8,74 +9,62 @@ class CreateScale {
 
     }
 
-    async scaleNavigation(): Promise<boolean> {
-        try {
+    // async scaleNavigation(): Promise<boolean> {
+    //     try {
 
-            await this.page.getByRole('button', { name: 'Scales' }).click();
-            let expectedURL = 'https://staging-app.linusanalytics.com/scales';
-            await this.verifyNavigation(expectedURL);
-            console.log('Successfully navigated to scale tab');
-            return true; // Return true if all details were entered successfully
-        } catch (error) {
-            console.error('Error occurred while adding scale:', error);
-            return false; // Return false if any error occurred while entering details
-        }
-    }
+    //         await this.page.getByRole('button', { name: 'Scales' }).click();
+    //         let expectedURL = 'https://staging-app.linusanalytics.com/scales';
+    //         await this.verifyNavigation(expectedURL);
+    //         console.log('Successfully navigated to scale tab');
+    //         return true; // Return true if all details were entered successfully
+    //     } catch (error) {
+    //         console.error('Error occurred while adding scale:', error);
+    //         return false; // Return false if any error occurred while entering details
+    //     }
+    // }
 
-    async verifyNavigation(url: string): Promise<boolean> {
-        try {
-            let currenturl = this.page.url();
+    // async verifyNavigation(url: string): Promise<boolean> {
+    //     try {
+    //         let currenturl = this.page.url();
    
-            await this.page.waitForTimeout(10000);
+    //         await this.page.waitForTimeout(10000);
 
-            if(url == currenturl){
-                console.log("URl Verification Done");
+    //         if(url == currenturl){
+    //             console.log("URl Verification Done");
 
-            }else{
+    //         }else{
 
-                console.log("User Navigation Un-Successfull");
-            }
+    //             console.log("User Navigation Un-Successfull");
+    //         }
 
-            return true; // Return true if the current URL matches the expected URL
+    //         return true; // Return true if the current URL matches the expected URL
             
-        } catch (error) {
-            console.error('Error occurred while adding scale:', error);
-            return false; // Return false if any error ozccurred while entering details
-        }
-    }
+    //     } catch (error) {
+    //         console.error('Error occurred while adding scale:', error);
+    //         return false; // Return false if any error ozccurred while entering details
+    //     }
+    // }
 
-    async verifyscale(page: Page, scaleName:string){
+    async verifyscale(scaleName:string){
+        await this.page.waitForNavigation({ timeout: 5000 });
+        await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/dashboard?facilityId=395');
 
-        // await page.goto('https://staging-app.linusanalytics.com/dashboard');
-
-        // await page.goto('https://staging-app.linusanalytics.com/dashboard?facilityId=395');
         
-        await page.getByRole('button', { name: 'Manage-icon Manage' }).click();
+        await this.page.getByRole('button', { name: 'Manage-icon Manage' }).click();
 
-        await page.getByRole('button', { name: 'Scales' }).click();
-
-        let expectedName = "https://staging-app.linusanalytics.com/scales";
-
-        await this.verifyNavigation(expectedName);
-        console.log('User navigate to the Scale Page');
-        await page.getByRole('cell', { name: scaleName }).locator('div').click();
-        console.log('User navigate to the Scale Details Page');
-        await page.waitForTimeout(5000);
+        await this.page.getByRole('button', { name: 'Scales' }).click();
+        await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/scales?facilityId=395');
+        console.log('User navigated to the scale page');
+        await this.page.getByRole('cell', { name: scaleName }).locator('div').click();
+        console.log("Scale Name Check ========> " + scaleName)
+        await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/scales/UK%20Scale?facilityId=395&id=414');
+        console.log('User navigated to the scale details page');
+        await this.page.waitForTimeout(5000);
 
     }
 
-    async verifiedscale(scale: string){
-            try {
-                const currentscale = this.page.url(); // Get the current URL
-                console.log("Scale Verification Successfully Done");
-                return currentscale === scale; // Return true if the current URL matches the expected URL
-            } catch (error) {
-                console.error('Error occurred while adding scale:', error);
-                return false; // Return false if any error occurred while entering details
-            }
-        }
-
-}export default CreateScale;
+}
+export default CreateScale;
 
 
   

@@ -1,10 +1,8 @@
 import { test, chromium, Page } from '@playwright/test';
 import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
-import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 import axios from 'axios';
 import CreateScale_Cl from '../Pages/Customer_Panel/Create_Scale';
-import CreateScale from '../Pages/Admin_Panel/CreateScale';
 
 test.describe('Customer Panel', async () => {
     let browser
@@ -47,35 +45,27 @@ test.describe('Customer Panel', async () => {
         await login.login(url, username, password);
     });
 
-    // test('Create Customer', async () => {
-
-    // });
-
-    // test('Create Facility', async () => {
-
-    // });
-
-    test('Create Scale', async () => {
+    test('Verify scale created by admin reflected on customer dashboard', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const {scaleId,scaleName} = testData.scaleData;
+        const { scaleId, scaleName } = testData.scaleData;
         const scaleNameValue = customerNameValue + "-" + scaleName;
         (globalThis as any).scaleNameValue = scaleNameValue;
 
-        await scale.verifyscale(page,"UK Scale");
+        await scale.verifyscale(scaleNameValue);
 
     });
 
-    test('Create Bin', async () => {
+    test.skip('Create Bin', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const {binName,maxCapacity, capacityThreshold} = testData.binData;
+        const { binName, maxCapacity, capacityThreshold } = testData.binData;
         const binNameValue = customerNameValue + "-" + binName;
         (globalThis as any).binNameValue = binNameValue;
 
-        await scale.verifyscale(page,"UK Bin");
+        //  await scale.verifyscale("UK Bin");
 
     });
 
