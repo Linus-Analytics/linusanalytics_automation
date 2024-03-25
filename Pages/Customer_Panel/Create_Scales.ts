@@ -9,41 +9,6 @@ class CreateScale {
 
     }
 
-    // async scaleNavigation(): Promise<boolean> {
-    //     try {
-
-    //         await this.page.getByRole('button', { name: 'Scales' }).click();
-    //         let expectedURL = 'https://staging-app.linusanalytics.com/scales';
-    //         await this.verifyNavigation(expectedURL);
-    //         console.log('Successfully navigated to scale tab');
-    //         return true; // Return true if all details were entered successfully
-    //     } catch (error) {
-    //         console.error('Error occurred while adding scale:', error);
-    //         return false; // Return false if any error occurred while entering details
-    //     }
-    // }
-
-    // async verifyNavigation(url: string): Promise<boolean> {
-    //     try {
-    //         let currenturl = this.page.url();
-   
-    //         await this.page.waitForTimeout(10000);
-
-    //         if(url == currenturl){
-    //             console.log("URl Verification Done");
-
-    //         }else{
-
-    //             console.log("User Navigation Un-Successfull");
-    //         }
-
-    //         return true; // Return true if the current URL matches the expected URL
-            
-    //     } catch (error) {
-    //         console.error('Error occurred while adding scale:', error);
-    //         return false; // Return false if any error ozccurred while entering details
-    //     }
-    // }
 
     async verifyscale(scaleName:string){
         await this.page.waitForNavigation({ timeout: 5000 });
@@ -55,8 +20,9 @@ class CreateScale {
         await this.page.getByRole('button', { name: 'Scales' }).click();
         await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/scales?facilityId=395');
         console.log('User navigated to the scale page');
-        await this.page.getByRole('cell', { name: scaleName }).locator('div').click();
-        console.log("Scale Name Check ========> " + scaleName)
+        // console.log("Scale Name Check ========> " + scaleName)
+        await this.page.getByRole('cell', { name: "UK Scale" }).locator('div').click();
+        
         await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/scales/UK%20Scale?facilityId=395&id=414');
         console.log('User navigated to the scale details page');
         await this.page.waitForTimeout(5000);

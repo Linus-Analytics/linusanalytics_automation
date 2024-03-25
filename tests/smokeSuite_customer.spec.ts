@@ -2,7 +2,10 @@ import { test, chromium, Page } from '@playwright/test';
 import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
 import axios from 'axios';
-import CreateScale_Cl from '../Pages/Customer_Panel/Create_Scale';
+import CreateScale from '../Pages/Customer_Panel/Create_Scales';
+import CreateBin from '../Pages/Customer_Panel/Create_Bins';
+import CreateMachine from '../Pages/Customer_Panel/Create_Machines';
+import CreateHopper from '../Pages/Customer_Panel/Create_Hoppers';
 
 test.describe('Customer Panel', async () => {
     let browser
@@ -11,7 +14,10 @@ test.describe('Customer Panel', async () => {
     // let customer: CreateCustomer;
     let login: LoginPage;
     // let facility: CreateFacility;
-    let scale: CreateScale_Cl;
+    let scale: CreateScale;
+    let bin: CreateBin;
+    let machine: CreateMachine;
+    let hopper: CreateHopper;
 
     test.beforeAll(async () => {
         browser = await chromium.launch({
@@ -22,8 +28,10 @@ test.describe('Customer Panel', async () => {
         login = new LoginPage(page);
         // customer = new CreateCustomer(page);
         // facility = new CreateFacility(page);
-        scale = new CreateScale_Cl(page);
-
+        scale = new CreateScale(page);
+        bin = new CreateBin(page);
+        machine = new CreateMachine(page);
+        hopper = new CreateHopper(page);
 
         const username = "dell@yopmail.com";
         const password = "P@ss1234";
@@ -55,9 +63,10 @@ test.describe('Customer Panel', async () => {
 
         await scale.verifyscale(scaleNameValue);
 
+
     });
 
-    test.skip('Create Bin', async () => {
+    test('Verify bin created by admin reflected on customer dashboard', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
@@ -65,7 +74,34 @@ test.describe('Customer Panel', async () => {
         const binNameValue = customerNameValue + "-" + binName;
         (globalThis as any).binNameValue = binNameValue;
 
-        //  await scale.verifyscale("UK Bin");
+        await bin.bin_navigation();
+        await bin.verifybin(binNameValue);
+
+    });
+
+    test('Verify machine created by admin reflected on customer dashboard', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const { MachineName} = testData.machineData;
+        const machineNameValue = customerNameValue + "-" + MachineName;
+        (globalThis as any).machineNameValue = machineNameValue;
+
+        await machine.machine_navigation();
+        await machine.verifymachine(machineNameValue);
+
+    });
+
+    test('Verify hopper created by admin reflected on customer dashboard', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const { HopperName} = testData.hopperData;
+        const hopperNameValue = customerNameValue + "-" + HopperName;
+        (globalThis as any).hopperNameValue = hopperNameValue;
+
+        await hopper.hopper_navigation();
+        await hopper.verifyhopper(hopperNameValue);
 
     });
 

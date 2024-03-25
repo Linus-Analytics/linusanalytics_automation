@@ -6,8 +6,14 @@ interface TestData {
     commodityData: CommodityData;
     machinetypeData: MachinetypeDate;
     machineData: MachineData;
+    hopperData: HopperData;
 
 }
+
+interface HopperData {
+    HopperName: string;
+}
+
 
 interface MachineData {
     MachineName: string;
@@ -58,6 +64,11 @@ interface MachinetypeDate {
 }
 
 const testData: TestData = {
+
+    hopperData: {
+
+        HopperName: "Hopper",
+    },
 
     machineData: {
 
