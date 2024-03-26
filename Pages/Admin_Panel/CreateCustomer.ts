@@ -107,7 +107,7 @@ class CreateCustomer {
     async clickOnCustomerDetail(customerNameValue: string) {
 
         await this.page.getByLabel(customerNameValue, { exact: true }).click();
-        const locator = this.page.getByRole('heading', { name: customerNameValue })
+        const locator = await this.page.getByRole('heading', { name: customerNameValue, exact: true });
         // await expect(this.page).toHaveURL(new RegExp('^https:\/\/staging-app\.linusanalytics\.com\/admin\/customers\/\d+$'));
         await expect(locator).toHaveText(customerNameValue)
 
@@ -128,30 +128,85 @@ class CreateCustomer {
         await expect(locator).toHaveText("An invitation email has been sent")
     }
 
-    async verifySignupEmail(emailAddress: string, firstName: string, lastName: string, password: string) {
-        await this.page.goto('https://yopmail.com/');
-        await this.page.getByPlaceholder('Enter your inbox here').click();
-        await this.page.getByPlaceholder('Enter your inbox here').fill(emailAddress);
-        await this.page.getByRole('button', { name: '' }).click();
-        await this.page.frameLocator('iframe[name="ifinbox"]').getByRole('button', { name: 'Linus Invite' }).click();
+    async verifySignupEmail(emailAddress: string, firstName: string, lastName: string, password: string): Promise<boolean> {
+        try {
+            console.log("Navigating to Yopmail...");
+            await this.page.goto('https://yopmail.com/');
+            console.log("Clicked on email address input...");
+            await this.page.getByPlaceholder('Enter your inbox here').click();
+            console.log("Filled email address...");
+            await this.page.getByPlaceholder('Enter your inbox here').fill(emailAddress);
+            console.log("Clicked on Yopmail submit button...");
+            await this.page.getByRole('button', { name: '' }).click();
 
-        const page2Promise = this.page.waitForEvent('popup');
-        await this.page.frameLocator('iframe[name="ifmail"]').getByRole('link', { name: 'Accept Invite' }).click();
+            console.log("Clicked on 'Linus Invite' button...");
+            await this.page.frameLocator('iframe[name="ifinbox"]').getByRole('button', { name: 'Linus Invite' }).click();
 
-        const page2 = await page2Promise;
-        await page2.getByLabel('First Name').click();
-        await page2.getByLabel('First Name').fill(firstName);
-        await page2.getByLabel('Last Name').click();
-        await page2.getByLabel('Last Name').fill(lastName);
-        await page2.getByLabel('Password', { exact: true }).click();
-        await page2.getByLabel('Password', { exact: true }).fill(password);
-        await page2.getByRole('button', { name: 'Submit' }).click();
-        
+            const page2Promise = this.page.waitForEvent('popup');
+            console.log("Clicked on 'Accept Invite' link...");
+            await this.page.frameLocator('iframe[name="ifmail"]').getByRole('link', { name: 'Accept Invite' }).click();
 
-        await this.page.goto('https://yopmail.com/wm');
-        await this.page.frameLocator('iframe[name="ifinbox"]').getByRole('button', { name: 'no-reply@' }).click();
+            const page2 = await page2Promise;
+            console.log("Clicked on 'First Name' field...");
+            await page2.getByLabel('First Name').click();
+            console.log("Filled 'First Name' field...");
+            await page2.getByLabel('First Name').fill(firstName);
+            console.log("Clicked on 'Last Name' field...");
+            await page2.getByLabel('Last Name').click();
+            console.log("Filled 'Last Name' field...");
+            await page2.getByLabel('Last Name').fill(lastName);
+            console.log("Clicked on 'Password' field...");
+            await page2.getByLabel('Password', { exact: true }).click();
+            console.log("Filled 'Password' field...");
+            await page2.getByLabel('Password', { exact: true }).fill(password);
+            console.log("Clicked on 'Submit' button...");
+            await page2.getByRole('button', { name: 'Submit' }).click();
+
+            console.log("Navigating to Yopmail inbox...");
+            await this.page.goto('https://yopmail.com/wm');
+            console.log("Waiting for 6 seconds...");
+            await this.page.waitForTimeout(6000);
+            const maxAttempts = 3;
+            let attempts = 0;
+            let success = false;
+
+            while (!success && attempts < maxAttempts) {
+                try {
+                    console.log(`Attempt ${attempts + 1}: Clicking on '' button...`);
+                    await this.page.getByRole('button', { name: '' }).click();
+                    success = true;
+                } catch (error) {
+                    console.error(`Error during attempt ${attempts + 1}:`, error);
+                    attempts++;
+                    console.log("Waiting for 1 second before retrying...");
+                    await this.page.waitForTimeout(1000);
+                }
+            }
+
+            if (!success) {
+                console.error("Failed to perform the button click after multiple attempts.");
+                return false;
+            }
+
+            console.log("Clicking on 'no-reply@' button...");
+            this.page.frameLocator('iframe[name="ifinbox"]').getByRole('button', { name: 'no-reply@' });
+            console.log("Looking for verification code...");
+            this.page.frameLocator('iframe[name="ifmail"]').getByText('The verification code to your')
+            const divText = await this.page.$eval('div', (element) => element.textContent);
+            if (divText !== null) {
+                const verificationCode = divText.match(/\d+/)?.[0];
+                console.log("Verification Code:", verificationCode);
+                // Perform further actions using verificationCode
+            } else {
+                console.log("No <div> element found.");
+            }
+
+            return true;
+        } catch (error) {
+            console.error("Error during signup verification:", error);
+            return false;
+        }
     }
-
 
 }
 

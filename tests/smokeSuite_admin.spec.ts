@@ -6,7 +6,7 @@ import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 import axios from 'axios';
 import CreateFacility from '../Pages/Admin_Panel/CreateFacility';
 import CreateScale from '../Pages/Admin_Panel/CreateScale';
-import CreateBin from '../Pages/Admin_Panel/Createbin';
+import CreateBin from '../Pages/Admin_Panel/CreateBin';
 import CreateMachineType from '../Pages/Admin_Panel/CreateMachineType';
 import CreateCommodity from '../Pages/Admin_Panel/CreateCommodity';
 
@@ -58,46 +58,47 @@ test.describe('Test with Admin Credentials', async () => {
     });
 
     test('Create Customer', async () => {
-        const { customerName, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber } = testData.customerData;
-        const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
-        const customerNameValue = customerName + "-" + randomNumber;
+        // const { customerName, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber } = testData.customerData;
+        // const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
+        // const customerNameValue = customerName + "-" + randomNumber;
+        const customerNameValue = 'Auto-501';
         (globalThis as any).customerNameValue = customerNameValue;
 
 
-        await customer.addCustomer(customerNameValue, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber);
-        await customer.checkCustomer(customerNameValue);
+        //     await customer.addCustomer(customerNameValue, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber);
+        //     await customer.checkCustomer(customerNameValue);
 
     });
 
 
-    test('Add User', async () => {
-        const customerNameValue = (globalThis as any).customerNameValue;
-        const email = customerNameValue + '@yopmail.com';
-        const role = 'Admin';
-        const firstName = "AutoFirst";
-        const lastName = "AutoLast";
-        const password = "P@ss1234";
+    // test('Add User', async () => {
+    //     const customerNameValue = (globalThis as any).customerNameValue;
+    //     const email = customerNameValue + '@yopmail.com';
+    //     const role = 'Admin';
+    //     const firstName = "AutoFirst";
+    //     const lastName = "AutoLast";
+    //     const password = "P@ss1234";
 
-        await customer.clickOnCustomerDetail(customerNameValue)
-        await customer.addUser(customerNameValue, email, role);
+    //     await customer.clickOnCustomerDetail(customerNameValue)
+    //     await customer.addUser(customerNameValue, email, role);
 
 
 
-    });
+    // });
 
-    test('Verify User Email', async () => {
-        const customerNameValue = (globalThis as any).customerNameValue;
-        const email = customerNameValue + '@yopmail.com';
-        const role = 'Admin';
-        const firstName = "AutoFirst";
-        const lastName = "AutoLast";
-        const password = "P@ss1234";
+    // test('Verify User Email', async () => {
+    //     const customerNameValue = (globalThis as any).customerNameValue;
+    //     const email = customerNameValue + '@yopmail.com';
+    //     const role = 'Admin';
+    //     const firstName = "AutoFirst";
+    //     const lastName = "AutoLast";
+    //     const password = "P@ss1234";
 
-        await customer.verifySignupEmail(customerNameValue, firstName, lastName, password)
+    //     await customer.verifySignupEmail(customerNameValue, firstName, lastName, password)
 
-    });
+    // });
 
-    test.skip('Create Facility', async () => {
+    test('Create Facility', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const { facilityName, contactName } = testData.facilityData;
@@ -113,17 +114,19 @@ test.describe('Test with Admin Credentials', async () => {
 
     });
 
-    test.skip('Create Scale', async () => {
+    test('Create Scale', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
         const { scaleId, scaleName } = testData.scaleData;
         const scaleNameValue = customerNameValue + "-" + scaleName;
+        const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
+        const scaleIDValue = 'scil' + randomNumber;
         (globalThis as any).scaleNameValue = scaleNameValue;
 
 
         await scale.scaleNavigation();
-        await scale.addScale(customerNameValue, facilityNameValue, scaleId, scaleNameValue);
+        await scale.addScale(customerNameValue, facilityNameValue, scaleIDValue, scaleNameValue);
         await scale.checkscale(scaleNameValue);
 
     });
@@ -133,21 +136,21 @@ test.describe('Test with Admin Credentials', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const {binName,maxCapacity,capacityThreshold} = testData.binData;
+        const { binName, maxCapacity, capacityThreshold } = testData.binData;
         const binNameValue = customerNameValue + "-" + binName;
         (globalThis as any).binNameValue = binNameValue;
 
 
         await bin.binNavigation();
-        await bin.addBin(customerNameValue,facilityNameValue,binNameValue,maxCapacity);
+        await bin.addBin(customerNameValue, facilityNameValue, binNameValue, maxCapacity);
         await bin.checkbin(binNameValue);
-        
+
     });
 
     test('Create Machine Type', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
-        const {machinetypeName} = testData.machinetypeData;
+        const { machinetypeName } = testData.machinetypeData;
         const machinetypeNameValue = customerNameValue + "-" + machinetypeName;
         (globalThis as any).machinetypeNameValue = machinetypeNameValue;
 
@@ -155,7 +158,7 @@ test.describe('Test with Admin Credentials', async () => {
         await machinetype.machinetypeNavigation();
         await machinetype.addMachineType(machinetypeNameValue);
         await machinetype.checkmachinetype(machinetypeNameValue);
-        
+
     });
 
     test('Create Commodity', async () => {

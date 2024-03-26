@@ -14,7 +14,7 @@ class CreateBin {
             await this.page.getByRole('button', { name: 'Bins-icon Bins' }).click();
             let expectedURL = 'https://staging-app.linusanalytics.com/admin/bins';
             await this.verifyNavigation(expectedURL);
-            // console.log('Successfully navigated to Bins tab');
+            console.log('Successfully navigated to Bins tab');
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding Bins:', error);
@@ -39,7 +39,7 @@ class CreateBin {
 
             await this.page.getByLabel('Select Customer').click();
             await this.page.getByRole('option', { name: customerName }).click();
-            
+
             await this.page.getByPlaceholder('Select Facility').click();
             await this.page.getByRole('option', { name: facilityName }).locator('div').first().click();
 
@@ -50,7 +50,7 @@ class CreateBin {
             await this.page.getByLabel('Max Capacity').fill(binMax);
 
             await this.page.getByRole('button', { name: 'Save' }).click();
-            
+
             await this.page.waitForTimeout(5000);
 
             return true; // Return true if all details were entered successfully
@@ -89,7 +89,7 @@ class CreateBin {
         }
     }
 
-}export default CreateBin;
+} export default CreateBin;
 
 
 

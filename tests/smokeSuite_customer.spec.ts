@@ -33,7 +33,7 @@ test.describe('Customer Panel', async () => {
         machine = new CreateMachine(page);
         hopper = new CreateHopper(page);
 
-        const username = "dell@yopmail.com";
+        const username = "auto-501@yopmail.com";
         const password = "P@ss1234";
         const url = "https://staging-app.linusanalytics.com";
         const maxRetries = 3;
@@ -57,10 +57,10 @@ test.describe('Customer Panel', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const { scaleId, scaleName } = testData.scaleData;
-        const scaleNameValue = customerNameValue + "-" + scaleName;
-        (globalThis as any).scaleNameValue = scaleNameValue;
-
+        // const { scaleId, scaleName } = testData.scaleData;
+        // const scaleNameValue = customerNameValue + "-" + scaleName;
+        //(globalThis as any).scaleNameValue = scaleNameValue;
+        const scaleNameValue: string = (globalThis as any).scaleNameValue;
         await scale.verifyscale(scaleNameValue);
 
 
@@ -83,7 +83,7 @@ test.describe('Customer Panel', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const { MachineName} = testData.machineData;
+        const { MachineName } = testData.machineData;
         const machineNameValue = customerNameValue + "-" + MachineName;
         (globalThis as any).machineNameValue = machineNameValue;
 
@@ -96,7 +96,7 @@ test.describe('Customer Panel', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const { HopperName} = testData.hopperData;
+        const { HopperName } = testData.hopperData;
         const hopperNameValue = customerNameValue + "-" + HopperName;
         (globalThis as any).hopperNameValue = hopperNameValue;
 

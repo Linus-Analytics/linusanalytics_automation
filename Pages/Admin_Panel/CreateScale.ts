@@ -62,7 +62,7 @@ class CreateScale {
 
     async checkscale(scaleNameValue: string): Promise<boolean> {
         try {
-
+            await this.page.waitForTimeout(3000);
             const scaleList = await this.page.$$('//h4');
 
             if (scaleList.length > 0) {
@@ -89,7 +89,7 @@ class CreateScale {
         }
     }
 
-}export default CreateScale;
+} export default CreateScale;
 
 
 
