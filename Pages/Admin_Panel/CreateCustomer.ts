@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 class CreateCustomer {
     private page: Page;
@@ -32,7 +32,7 @@ class CreateCustomer {
             return false; // Return false if any error occurred while entering details
         }
     }
-    
+
     async addCustomer(customerName: string, C_streetAddress1: string, C_streetAddress2: string, C_countryName: string, C_state: string, C_city: string, C_zipCode: string, C_phoneNumber: string): Promise<boolean> {
         try {
             await this.customerNavigation();
@@ -87,6 +87,7 @@ class CreateCustomer {
 
                         if (customerListText.trim().toLowerCase() === customerNameValue.trim().toLowerCase()) {
                             console.log("Customer Created ----------------> " + customerNameValue);
+                            // await element.click();
                             return true; // Return true when customer is found
                         }
                     }
@@ -102,7 +103,58 @@ class CreateCustomer {
             return false; // Return false if any error occurs during the process
         }
     }
+
+    async clickOnCustomerDetail(customerNameValue: string) {
+
+        await this.page.getByLabel(customerNameValue, { exact: true }).click();
+        const locator = this.page.getByRole('heading', { name: customerNameValue })
+        // await expect(this.page).toHaveURL(new RegExp('^https:\/\/staging-app\.linusanalytics\.com\/admin\/customers\/\d+$'));
+        await expect(locator).toHaveText(customerNameValue)
+
+
+    }
+
+    async addUser(user: string, email: string, role: string) {
+
+        await this.page.getByRole('button', { name: 'Add', exact: true }).click();
+        await this.page.getByLabel('Name').click();
+        await this.page.getByLabel('Name').fill(user);
+        await this.page.getByLabel('Email Address').click();
+        await this.page.getByLabel('Email Address').fill(email);
+        await this.page.getByLabel('User Role').click();
+        await this.page.getByRole('option', { name: role }).click();
+        await this.page.getByRole('button', { name: 'Save' }).click();
+        const locator = this.page.getByText('An invitation email has been sent')
+        await expect(locator).toHaveText("An invitation email has been sent")
+    }
+
+    async verifySignupEmail(emailAddress: string, firstName: string, lastName: string, password: string) {
+        await this.page.goto('https://yopmail.com/');
+        await this.page.getByPlaceholder('Enter your inbox here').click();
+        await this.page.getByPlaceholder('Enter your inbox here').fill(emailAddress);
+        await this.page.getByRole('button', { name: '' }).click();
+        await this.page.frameLocator('iframe[name="ifinbox"]').getByRole('button', { name: 'Linus Invite' }).click();
+
+        const page2Promise = this.page.waitForEvent('popup');
+        await this.page.frameLocator('iframe[name="ifmail"]').getByRole('link', { name: 'Accept Invite' }).click();
+
+        const page2 = await page2Promise;
+        await page2.getByLabel('First Name').click();
+        await page2.getByLabel('First Name').fill(firstName);
+        await page2.getByLabel('Last Name').click();
+        await page2.getByLabel('Last Name').fill(lastName);
+        await page2.getByLabel('Password', { exact: true }).click();
+        await page2.getByLabel('Password', { exact: true }).fill(password);
+        await page2.getByRole('button', { name: 'Submit' }).click();
+        
+
+        await this.page.goto('https://yopmail.com/wm');
+        await this.page.frameLocator('iframe[name="ifinbox"]').getByRole('button', { name: 'no-reply@' }).click();
+    }
+
+
 }
+
 
 export default CreateCustomer;
 
