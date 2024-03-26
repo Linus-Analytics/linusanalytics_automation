@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 class CreateHopper {
     private page: Page;
@@ -14,7 +14,7 @@ class CreateHopper {
             await this.page.getByRole('button', { name: 'Hoppers-icon Hoppers' }).click();
 
             await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/hoppers');
-            return true; // Return true if all details were entered successfully
+            return true;
         } catch (error) {
             console.error('Error occurred while adding Hopper:', error);
             return false; // Return false if any error occurred while entering details
@@ -22,7 +22,7 @@ class CreateHopper {
     }
 
 
-    async addHopper(customerName: string, facilityName: string, hopperName:string ,  hopperBin:string , hopperCommodity: string, machineName: string): Promise<boolean> {
+    async addHopper(customerName: string, facilityName: string, hopperName: string, hopperBin: string, hopperCommodity: string, machineName: string): Promise<boolean> {
         try {
 
             await this.page.getByRole('button', { name: 'Add Hopper' }).click();
@@ -84,7 +84,7 @@ class CreateHopper {
         }
     }
 
-}export default CreateHopper;
+} export default CreateHopper;
 
 
 
