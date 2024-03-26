@@ -32,7 +32,7 @@ class CreateCommodity {
 
             await this.page.getByRole('button', { name: 'Save' }).click();
             
-            await this.page.waitForTimeout(5000);
+            await this.page.waitForTimeout(10000);
 
             return true; // Return true if all details were entered successfully
         } catch (error) {
@@ -41,27 +41,27 @@ class CreateCommodity {
         }
     }
 
-    async checkcommodity(MachineTypeNameValue: string): Promise<boolean> {
+    async checkcommodity(commodityNameValue: string): Promise<boolean> {
         try {
 
-            const machinetypeList = await this.page.$$('//h4');
+            const commodityList = await this.page.$$('//h4');
 
-            if (machinetypeList.length > 0) {
-                for (const element of machinetypeList) {
-                    const machinetypeListText = await element.textContent();
-                    if (machinetypeListText) { // Check if Commodity ListText is not null
-                        console.log("Commodity Name ----------------> " + machinetypeListText);
+            if (commodityList.length > 0) {
+                for (const element of commodityList) {
+                    const commodityListText = await element.textContent();
+                    if (commodityListText) { // Check if Commodity ListText is not null
+                        console.log("Commodity Name ----------------> " + commodityListText);
 
-                        if (machinetypeListText.trim().toLowerCase() === MachineTypeNameValue.trim().toLowerCase()) {
-                            console.log("Commodity Created ----------------> " + MachineTypeNameValue);
+                        if (commodityListText.trim().toLowerCase() === commodityNameValue.trim().toLowerCase()) {
+                            console.log("Commodity Created ----------------> " + commodityNameValue);
                             return true; // Return true when Commodity is found
                         }
                     }
                 }
-                console.log("Commodity Not Found In List ----------------> " + MachineTypeNameValue);
+                console.log("Commodity Not Found In List ----------------> " + commodityNameValue);
                 return false; // Return false if Commodity is not found
             } else {
-                console.log("Commodity Data Not Found ----------------> " + MachineTypeNameValue);
+                console.log("Commodity Data Not Found ----------------> " + commodityNameValue);
                 return false; // Return false if Commodity list is empty
             }
         } catch (error) {

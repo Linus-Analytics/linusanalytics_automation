@@ -6,11 +6,10 @@ import { RandomNumberGenerator } from '../Utilities/RandomNameGenerator';
 import axios from 'axios';
 import CreateFacility from '../Pages/Admin_Panel/CreateFacility';
 import CreateScale from '../Pages/Admin_Panel/CreateScale';
-import CreateBin from '../Pages/Admin_Panel/Createbin';
+import CreateBin from '../Pages/Admin_Panel/CreateBin';
 import CreateMachineType from '../Pages/Admin_Panel/CreateMachineType';
 import CreateCommodity from '../Pages/Admin_Panel/CreateCommodity';
-import { machine } from 'os';
-import CreateMachine from '../Pages/Admin_Panel/Createmachine';
+import CreateMachine from '../Pages/Admin_Panel/CreateMachine';
 import CreateHopper from '../Pages/Admin_Panel/CreateHopper';
 
 test.describe('Test with Admin Credentials', async () => {
@@ -41,6 +40,8 @@ test.describe('Test with Admin Credentials', async () => {
         bin = new CreateBin(page);
         machinetype = new CreateMachineType(page);
         commodity = new CreateCommodity(page);
+        machine = new CreateMachine(page);
+        hopper = new CreateHopper(page);
 
 
         const username = "linusqa@yopmail.com";
@@ -67,7 +68,7 @@ test.describe('Test with Admin Credentials', async () => {
         // const { customerName, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber } = testData.customerData;
         // const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
         // const customerNameValue = customerName + "-" + randomNumber;
-        const customerNameValue = 'Auto-501';
+        const customerNameValue = 'Auto-101';
         (globalThis as any).customerNameValue = customerNameValue;
 
 
