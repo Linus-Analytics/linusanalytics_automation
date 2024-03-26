@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 class CreateCommodity {
     private page: Page;
@@ -12,9 +12,9 @@ class CreateCommodity {
         try {
 
             await this.page.getByRole('button', { name: 'Commodities-icon Commodities' }).click();
-            let expectedURL = 'https://staging-app.linusanalytics.com/admin/commodities';
-            await this.verifyNavigation(expectedURL);
-            // console.log('Successfully navigated to Commodities tab');
+        
+            await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/commodities');
+       
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding Commodity:', error);
@@ -22,15 +22,6 @@ class CreateCommodity {
         }
     }
 
-    async verifyNavigation(url: string): Promise<boolean> {
-        try {
-            const currentURL = this.page.url(); // Get the current URL
-            return currentURL === url; // Return true if the current URL matches the expected URL
-        } catch (error) {
-            console.error('Error occurred while adding Commodities:', error);
-            return false; // Return false if any error occurred while entering details
-        }
-    }
 
     async addcommodity(CommodityName: string): Promise<boolean> {
         try {

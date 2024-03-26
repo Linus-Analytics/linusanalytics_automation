@@ -12,11 +12,12 @@ interface TestData {
 
 interface HopperData {
     HopperName: string;
+
 }
 
 
 interface MachineData {
-    MachineName: string;
+    machineName: string;
 
 }
 
@@ -61,6 +62,7 @@ interface CommodityData {
 interface MachinetypeDate {
 
     machinetypeName: string;
+   
 }
 
 const testData: TestData = {
@@ -72,7 +74,8 @@ const testData: TestData = {
 
     machineData: {
 
-        MachineName: "Machine",
+        machineName: "Machine",
+    
     },
 
     customerData: {
@@ -97,7 +100,7 @@ const testData: TestData = {
     },
     scaleData: {
 
-        scaleId: "hafja56aha",
+        scaleId: "hagfd5ssfsdsRYW",
         scaleName: "Scale"
     },
 

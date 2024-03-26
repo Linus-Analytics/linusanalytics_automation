@@ -1,89 +1,94 @@
-import { Locator, Page } from 'playwright';
-
-interface MachinetypeData {
-
-    machinetypeName: string;
-}
+import { expect, Locator, Page } from '@playwright/test';
 
 class CreateMachine {
     private page: Page;
-    private AddMachine: Locator;
-    private customername: Locator;
-    private facilityname: Locator;
-    private MachineTypename: Locator;
-    private machinenameinput: Locator
-    selectCustomerName!: Locator;
-    selectFacilityName!: Locator;
-    selectMachineTypeName!: Locator;
-    private savebtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.AddMachine = page.locator("//*[contains(text(),'Add Machine')]");
-        this.customername = page.locator("//input[@id='customer']"); // /div/button/img[@src='/_next/static/media/select_arrow.b1f6ceaf.svg']
-        this.facilityname = page.locator("//input[@id='facility']");
-        this.MachineTypename = page.locator("//input[@id='machineType']");
-        this.machinenameinput = page.locator("//input[@name='name']");
-        this.savebtn = page.locator("//*[contains(text(),'Save')]");
+
     }
 
-    async MachineNavigation(): Promise<boolean> {
+    async machineNavigation(): Promise<boolean> {
         try {
-            await this.page.goto("https://staging-app.linusanalytics.com/admin/machines/");
-            // await this.page.waitForTimeout(10000);
-            if (await this.page.waitForSelector('//nav/div/div/div/div/p[contains(text(),"Machine")]', { state: 'visible' })) {
-                console.log("User navigates to Machine tab");
-                return true; // Return true if the Machine tab is visible
+
+            await this.page.getByRole('button', { name: 'Machines-icon Machines' }).click();
+
+            await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/machines');
+            return true; // Return true if all details were entered successfully
+        } catch (error) {
+            console.error('Error occurred while adding Machine:', error);
+            return false; // Return false if any error occurred while entering details
+        }
+    }
+
+
+    async addMachine(customerName: string, facilityName: string, machineName: string,  machineType: string): Promise<boolean> {
+        try {
+
+            await this.page.getByRole('button', { name: 'Add Machine' }).click();
+
+            await this.page.getByLabel('Select Customer').click();
+            await this.page.getByRole('option', { name: customerName }).click();
+
+            await this.page.getByLabel('Select Facility').click();
+            await this.page.getByRole('option', { name: facilityName }).locator('div').first().click();
+
+            await this.page.getByLabel('Machine Name').click();
+            await this.page.getByLabel('Machine Name').fill(machineName);
+
+            await this.page.getByLabel('Select Machine Type').click();
+            await this.page.getByRole('option', { name: machineType, exact: true }).click();
+
+            await this.page.getByRole('button', { name: 'Save' }).click();
+
+            await this.page.waitForTimeout(5000);
+            return true; // Return true if all details were entered successfully
+        } catch (error) {
+            console.error('Error occurred while adding Machine:', error);
+            return false; // Return false if any error occurred while entering details
+        }
+    }
+
+    async checkmachine(machineNameValue: string): Promise<boolean> {
+        try {
+
+            const machineList = await this.page.$$('//h4');
+
+            if (machineList.length > 0) {
+                for (const element of machineList) {
+                    const machineListText = await element.textContent();
+                    if (machineListText) { // Check if MachineListText is not null
+                        console.log("Machine Name ----------------> " + machineListText);
+
+                        if (machineListText.trim().toLowerCase() === machineNameValue.trim().toLowerCase()) {
+                            console.log("Machine Created ----------------> " + machineNameValue);
+                            return true; // Return true when Machine is found
+                        }
+                    }
+                }
+                console.log("Machine Not Found In List ----------------> " + machineNameValue);
+                return false; // Return false if Machine is not found
             } else {
-                console.log("User failed to navigate to Machine tab");
-                return false; // Return false if the Machine tab is not visible
+                console.log("Machine Data Not Found ----------------> " + machineNameValue);
+                return false; // Return false if Machine list is empty
             }
         } catch (error) {
-            console.error("Error during Machine navigation:", error);
+            console.error("Error while checking Machine:", error);
             return false; // Return false if any error occurs during the process
         }
     }
 
-    async clickAddMachine(): Promise<boolean> {
-        try {
-            await this.AddMachine.click();
-            console.log("Add Machine button clicked......!");
-            return true; // Return true if the button is clicked successfully
-        } catch (error) {
-            console.error("Error while clicking on Add Machine button:", error);
-            return false; // Return false if any error occurs during the process
-        }
-    }
-
-    async clickMachineCustomer(customerNameValue: string, page: Page) {
-        await this.customername.click();
-        this.selectCustomerName = page.locator(`//ul[@id="customer-listbox"]/li/p[contains(text(),"${customerNameValue}")]`);
-        await this.selectCustomerName.click();
-
-    }
-
-    async clickMachineFacility(facilityNameValue: string, page: Page) {
-        await this.facilityname.click();
-        this.selectFacilityName = page.locator(`//ul[@id="facility-listbox"]/li/div/div/div/p[contains(text(),"${facilityNameValue}")]`);
-        await this.selectFacilityName.click();
-    }
-
-    async clickMachineMachineType(MachineTypeNameValue: string, page: Page) {
-        await this.MachineTypename.click();
-        this.selectMachineTypeName = page.locator(`//ul[@id="machineType-listbox"]/li/p[contains(text(),"${MachineTypeNameValue}")]`);
-        await this.selectMachineTypeName.click();
-    }
-
-    async enterMachineDetails(machineNameValue: string) {
-        await this.machinenameinput.fill(machineNameValue);
-    }
-
-    async clickonMachineSavebtn() {
-        await this.savebtn.click();
-        console.log("Machine Created Successfully")
-    }
+}export default CreateMachine;
 
 
-}
 
-export default CreateMachine;
+
+
+
+
+
+
+
+
+
+

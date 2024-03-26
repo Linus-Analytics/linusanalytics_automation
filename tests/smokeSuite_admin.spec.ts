@@ -9,6 +9,9 @@ import CreateScale from '../Pages/Admin_Panel/CreateScale';
 import CreateBin from '../Pages/Admin_Panel/Createbin';
 import CreateMachineType from '../Pages/Admin_Panel/CreateMachineType';
 import CreateCommodity from '../Pages/Admin_Panel/CreateCommodity';
+import { machine } from 'os';
+import CreateMachine from '../Pages/Admin_Panel/Createmachine';
+import CreateHopper from '../Pages/Admin_Panel/CreateHopper';
 
 test.describe('Test with Admin Credentials', async () => {
     let browser
@@ -21,6 +24,9 @@ test.describe('Test with Admin Credentials', async () => {
     let bin: CreateBin;
     let machinetype: CreateMachineType;
     let commodity: CreateCommodity;
+    let machine: CreateMachine;
+    let hopper: CreateHopper;
+
 
     test.beforeAll(async () => {
         browser = await chromium.launch({
@@ -35,6 +41,8 @@ test.describe('Test with Admin Credentials', async () => {
         bin = new CreateBin(page);
         machinetype = new CreateMachineType(page);
         commodity = new CreateCommodity(page);
+        machine = new CreateMachine(page);
+        hopper = new CreateHopper(page);
 
 
         const username = "linusqa@yopmail.com";
@@ -70,34 +78,32 @@ test.describe('Test with Admin Credentials', async () => {
     });
 
 
-    test('Add User', async () => {
-        const customerNameValue = (globalThis as any).customerNameValue;
-        const email = customerNameValue + '@yopmail.com';
-        const role = 'Admin';
-        const firstName = "AutoFirst";
-        const lastName = "AutoLast";
-        const password = "P@ss1234";
+    // test('Add User', async () => {
+    //     const customerNameValue = (globalThis as any).customerNameValue;
+    //     const email = customerNameValue + '@yopmail.com';
+    //     const role = 'Admin';
+    //     const firstName = "AutoFirst";
+    //     const lastName = "AutoLast";
+    //     const password = "P@ss1234";
 
-        await customer.clickOnCustomerDetail(customerNameValue)
-        await customer.addUser(customerNameValue, email, role);
+    //     await customer.clickOnCustomerDetail(customerNameValue)
+    //     await customer.addUser(customerNameValue, email, role);
 
+    // });
 
+    // test('Verify User Email', async () => {
+    //     const customerNameValue = (globalThis as any).customerNameValue;
+    //     const email = customerNameValue + '@yopmail.com';
+    //     const role = 'Admin';
+    //     const firstName = "AutoFirst";
+    //     const lastName = "AutoLast";
+    //     const password = "P@ss1234";
 
-    });
+    //     await customer.verifySignupEmail(customerNameValue, firstName, lastName, password)
 
-    test('Verify User Email', async () => {
-        const customerNameValue = (globalThis as any).customerNameValue;
-        const email = customerNameValue + '@yopmail.com';
-        const role = 'Admin';
-        const firstName = "AutoFirst";
-        const lastName = "AutoLast";
-        const password = "P@ss1234";
+    // });
 
-        await customer.verifySignupEmail(customerNameValue, firstName, lastName, password)
-
-    });
-
-    test.skip('Create Facility', async () => {
+    test('Create Facility', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const { facilityName, contactName } = testData.facilityData;
@@ -113,7 +119,7 @@ test.describe('Test with Admin Credentials', async () => {
 
     });
 
-    test.skip('Create Scale', async () => {
+    test('Create Scale', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
@@ -136,6 +142,7 @@ test.describe('Test with Admin Credentials', async () => {
         const {binName,maxCapacity,capacityThreshold} = testData.binData;
         const binNameValue = customerNameValue + "-" + binName;
         (globalThis as any).binNameValue = binNameValue;
+        
 
 
         await bin.binNavigation();
@@ -150,11 +157,29 @@ test.describe('Test with Admin Credentials', async () => {
         const {machinetypeName} = testData.machinetypeData;
         const machinetypeNameValue = customerNameValue + "-" + machinetypeName;
         (globalThis as any).machinetypeNameValue = machinetypeNameValue;
+        
 
 
         await machinetype.machinetypeNavigation();
         await machinetype.addMachineType(machinetypeNameValue);
         await machinetype.checkmachinetype(machinetypeNameValue);
+        
+    });
+
+    test('Create Machine', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const machinetypeNameValue: string = (globalThis as any).machinetypeNameValue;
+        const {machineName} = testData.machineData;
+        const machineNameValue = customerNameValue + "-" + machineName;
+        (globalThis as any).machineNameValue = machineNameValue;
+        
+
+
+        await machine.machineNavigation();
+        await machine.addMachine(customerNameValue,facilityNameValue,machineNameValue,machinetypeNameValue);
+        await machine.checkmachine(machineNameValue);
         
     });
 
@@ -169,6 +194,23 @@ test.describe('Test with Admin Credentials', async () => {
         await commodity.commodityNavigation();
         await commodity.addcommodity(commodityNameValue);
         await commodity.checkcommodity(commodityNameValue);
+        
+    });
+
+    test('Create Hopper', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const facilityNameValue: string = (globalThis as any).facilityNameValue;
+        const binNameValue: string = (globalThis as any).binNameValue;
+        const machineNameValue: string = (globalThis as any).machineNameValue;
+        const commodityNameValue: string = (globalThis as any).commodityNameValue;
+        const {HopperName} = testData.hopperData;
+        const hopperNameValue = customerNameValue + "-" + HopperName;
+
+
+        await hopper.hopperNavigation();
+        await hopper.addHopper(customerNameValue,facilityNameValue,hopperNameValue,binNameValue,commodityNameValue,machineNameValue);
+        await hopper.checkhopper(hopperNameValue);
         
     });
 

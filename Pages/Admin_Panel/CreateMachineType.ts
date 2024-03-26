@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 class CreateMachineType {
     private page: Page;
@@ -12,9 +12,9 @@ class CreateMachineType {
         try {
 
             await this.page.getByRole('button', { name: 'Machine Types-icon Machine Types' }).click();
-            let expectedURL = 'https://staging-app.linusanalytics.com/admin/machineTypes';
-            await this.verifyNavigation(expectedURL);
-            // console.log('Successfully navigated to Machine Type tab');
+           
+            await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/machineTypes');
+       
             return true; // Return true if all details were entered successfully
         } catch (error) {
             console.error('Error occurred while adding Machine Type:', error);
@@ -22,15 +22,7 @@ class CreateMachineType {
         }
     }
 
-    async verifyNavigation(url: string): Promise<boolean> {
-        try {
-            const currentURL = this.page.url(); // Get the current URL
-            return currentURL === url; // Return true if the current URL matches the expected URL
-        } catch (error) {
-            console.error('Error occurred while adding Machine Type:', error);
-            return false; // Return false if any error occurred while entering details
-        }
-    }
+
 
     async addMachineType(MachineTypeName: string): Promise<boolean> {
         try {

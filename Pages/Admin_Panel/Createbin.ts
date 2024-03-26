@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 class CreateBin {
     private page: Page;
@@ -13,7 +13,8 @@ class CreateBin {
 
             await this.page.getByRole('button', { name: 'Bins-icon Bins' }).click();
             let expectedURL = 'https://staging-app.linusanalytics.com/admin/bins';
-            await this.verifyNavigation(expectedURL);
+            // await this.verifyNavigation(expectedURL);
+            await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/bins');
             // console.log('Successfully navigated to Bins tab');
             return true; // Return true if all details were entered successfully
         } catch (error) {
@@ -22,15 +23,15 @@ class CreateBin {
         }
     }
 
-    async verifyNavigation(url: string): Promise<boolean> {
-        try {
-            const currentURL = this.page.url(); // Get the current URL
-            return currentURL === url; // Return true if the current URL matches the expected URL
-        } catch (error) {
-            console.error('Error occurred while adding Bins:', error);
-            return false; // Return false if any error occurred while entering details
-        }
-    }
+    // async verifyNavigation(url: string): Promise<boolean> {
+    //     try {
+    //         const currentURL = this.page.url(); // Get the current URL
+    //         return currentURL === url; // Return true if the current URL matches the expected URL
+    //     } catch (error) {
+    //         console.error('Error occurred while adding Bins:', error);
+    //         return false; // Return false if any error occurred while entering details
+    //     }
+    // }
 
     async addBin(customerName: string, facilityName: string, binName: string, binMax: string): Promise<boolean> {
         try {
