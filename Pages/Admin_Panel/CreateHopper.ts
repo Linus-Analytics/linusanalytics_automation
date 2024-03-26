@@ -43,7 +43,8 @@ class CreateHopper {
             await this.page.getByRole('option', { name: machineName }).locator('div').first().click();
 
             await this.page.getByLabel('Select Commodity Type').click();
-            await this.page.getByRole('option', { name: hopperCommodity }).click();
+            await this.page.getByRole('combobox', { name: 'Select Commodity Type' }).fill( hopperCommodity );
+            await this.page.locator('#commodity-option-0').getByText( hopperCommodity ).click();
 
             await this.page.getByRole('button', { name: 'Save' }).click();
 

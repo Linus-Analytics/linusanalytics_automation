@@ -68,7 +68,7 @@ test.describe('Test with Admin Credentials', async () => {
         // const { customerName, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber } = testData.customerData;
         // const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
         // const customerNameValue = customerName + "-" + randomNumber;
-        const customerNameValue = 'Auto-101';
+        const customerNameValue = 'Auto-155';
         (globalThis as any).customerNameValue = customerNameValue;
 
 
