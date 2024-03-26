@@ -8,6 +8,7 @@ import CreateFacility from '../Pages/Admin_Panel/CreateFacility';
 import CreateScale from '../Pages/Admin_Panel/CreateScale';
 import CreateBin from '../Pages/Admin_Panel/Createbin';
 import CreateMachineType from '../Pages/Admin_Panel/CreateMachineType';
+import CreateCommodity from '../Pages/Admin_Panel/CreateCommodity';
 
 test.describe('Test with Admin Credentials', async () => {
     let browser
@@ -19,6 +20,7 @@ test.describe('Test with Admin Credentials', async () => {
     let scale: CreateScale;
     let bin: CreateBin;
     let machinetype: CreateMachineType;
+    let commodity: CreateCommodity;
 
     test.beforeAll(async () => {
         browser = await chromium.launch({
@@ -32,6 +34,7 @@ test.describe('Test with Admin Credentials', async () => {
         scale = new CreateScale(page);
         bin = new CreateBin(page);
         machinetype = new CreateMachineType(page);
+        commodity = new CreateCommodity(page);
 
 
         const username = "linusqa@yopmail.com";
@@ -124,6 +127,20 @@ test.describe('Test with Admin Credentials', async () => {
         await machinetype.machinetypeNavigation();
         await machinetype.addMachineType(machinetypeNameValue);
         await machinetype.checkmachinetype(machinetypeNameValue);
+        
+    });
+
+    test('Create Commodity', async () => {
+
+        const customerNameValue: string = (globalThis as any).customerNameValue;
+        const {commodityName} = testData.commodityData;
+        const commodityNameValue = customerNameValue + "-" + commodityName;
+        (globalThis as any).commodityNameValue = commodityNameValue;
+
+
+        await commodity.commodityNavigation();
+        await commodity.addcommodity(commodityNameValue);
+        await commodity.checkcommodity(commodityNameValue);
         
     });
 
