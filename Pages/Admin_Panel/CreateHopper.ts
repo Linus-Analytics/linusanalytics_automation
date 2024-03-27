@@ -11,9 +11,10 @@ class CreateHopper {
     async hopperNavigation(): Promise<boolean> {
         try {
 
+            console.log("Navigating to Hopper");
             await this.page.getByRole('button', { name: 'Hoppers-icon Hoppers' }).click();
-
             await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/hoppers');
+            console.log("Navigated to Hopper");
             return true;
         } catch (error) {
             console.error('Error occurred while adding Hopper:', error);
@@ -24,6 +25,8 @@ class CreateHopper {
 
     async addHopper(customerName: string, facilityName: string, hopperName: string, hopperBin: string, hopperCommodity: string, machineName: string): Promise<boolean> {
         try {
+
+            console.log("Adding Hopper .....");
 
             await this.page.getByRole('button', { name: 'Add Hopper' }).click();
 
@@ -43,8 +46,8 @@ class CreateHopper {
             await this.page.getByRole('option', { name: machineName }).locator('div').first().click();
 
             await this.page.getByLabel('Select Commodity Type').click();
-            await this.page.getByRole('combobox', { name: 'Select Commodity Type' }).fill( hopperCommodity );
-            await this.page.locator('#commodity-option-0').getByText( hopperCommodity ).click();
+            await this.page.getByRole('combobox', { name: 'Select Commodity Type' }).fill(hopperCommodity);
+            await this.page.locator('#commodity-option-0').getByText(hopperCommodity).click();
 
             await this.page.getByRole('button', { name: 'Save' }).click();
 
@@ -59,6 +62,7 @@ class CreateHopper {
     async checkhopper(hopperNameValue: string): Promise<boolean> {
         try {
 
+            console.log("Checking Hopper .....");
             const hopperList = await this.page.$$('//h4');
 
             if (hopperList.length > 0) {

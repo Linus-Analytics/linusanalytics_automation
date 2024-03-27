@@ -1,5 +1,4 @@
 import { Page } from 'playwright';
-import { expect } from 'playwright/test';
 
 class CreateScale {
     private page: Page;
@@ -16,64 +15,86 @@ class CreateScale {
         return facilityId;
     }
 
-    async verifyscale(scaleName: string) {
-        await this.page.waitForNavigation({ timeout: 5000 });
-        const currentURL = await this.page.url();
-        console.log('Current URL:', currentURL);
-
-        // const facilityIdValue= await this.getFacilityIdFromURL();
-        // console.log('Facility ID:', facilityIdValue);
-        // const expectedURLPart = 'https://staging-app.linusanalytics.com/dashboard?facilityId=';
-        // await expect(this.page).toHaveURL(expectedURLPart);
-
-        await this.page.getByRole('button', { name: 'Manage-icon Manage' }).click();
-
-        await this.page.getByRole('button', { name: 'Scales' }).click();
-        // await expect(this.page).toHaveURL('/^https:\/\/staging-app\.linusanalytics\.com\/scales\?facilityId=\d+$/;');
-        console.log('User navigated to the scale page');
-        // console.log("Scale Name Check ========> " + scaleName)
-        await this.page.getByRole('cell', { name: scaleName }).locator('div').click();
-
-
-
-        // const encodedScaleName = encodeURIComponent(scaleName); // Encode the scale name
-        // let id;
-        // let facilityId;
-
-        // const expectedURL = `https://staging-app.linusanalytics.com/scales/${encodedScaleName}?facilityId=${facilityId}&id=${id}`;
-        // await expect(this.page).toHaveURL(expectedURL);
-        console.log('User navigated to the scale details page');
-        await this.page.waitForTimeout(5000);
-
-    }
-    async verifyScaleName(scaleName: string): Promise<boolean> {
+    async verifyScaleDetails(scaleName: string): Promise<boolean> {
         try {
+            await this.page.waitForTimeout(5000);
 
+            // Remove the dashes and replace with spaces
+            const adjustedScaleName = scaleName.replace(/-/g, ' ');
+
+            // Locate the heading element by its role with adjusted name
+            const headingElement = this.page.getByRole('heading', { name: adjustedScaleName });
+
+            // Verify if the heading element exists
+            if (!headingElement)
+                throw new Error(`Heading element with name '${scaleName}' not found`);
+
+            // Extract the text content of the heading element
+            const headingText = await headingElement.textContent() as string;
+
+            // Verify if the expected text is present in the heading element
+            if (!headingText.includes(adjustedScaleName))
+                throw new Error(`Heading text '${scaleName}' not found`);
+
+            // If all verifications passed, return true
+            return true;
+        } catch (error) {
+            // If any error occurs during verification, log it and mark the test as failed
+            console.error("Verification failed:", error);
+            throw new Error("Verification failed: " + error); // Mark the test as failed
+        }
+    }
+
+    async verifyScaleName(scaleName: string): Promise<void> {
+        try {
+            // Wait for 3 seconds
             await this.page.waitForTimeout(3000);
-            const scaleList = await this.page.$$('//tr/td[1]/div/p[contains(text(),' + scaleName + ')]');
 
-            if (scaleList.length > 0) {
-                for (const element of scaleList) {
-                    const scaleListText = await element.textContent();
-                    if (scaleListText) { // Check if customerListText is not null
-                        console.log("Scale Name ----------------> " + scaleListText);
+            // Wait for the scale element to appear within 10 seconds
+            const scaleElement = await this.page.waitForSelector('xpath=//tr/td[1]/div/p[contains(text(),' + scaleName + ')]', { timeout: 10000 });
+            // Verify if the scale element exists
+            if (!scaleElement)
+                throw new Error(`Scale element with name '${scaleName}' not found within 10 seconds`);
 
-                        if (scaleListText.trim().toLowerCase() === scaleName.trim().toLowerCase()) {
-                            console.log("Scale Created ----------------> " + scaleName);
-                            // await element.click();
-                            return true; // Return true when customer is found
-                        }
+            if (scaleElement) {
+                const scaleText = await scaleElement.textContent();
+
+                if (scaleText && scaleText.trim().toLowerCase() === scaleName.trim().toLowerCase()) {
+                    console.log("Scale created by admin found in customer ----------------> " + scaleName);
+                    await scaleElement.click();
+
+                    // Assuming verifyScaleDetails returns a boolean
+                    const scaleDetailsVerified = await this.verifyScaleDetails(scaleName);
+                    if (!scaleDetailsVerified) {
+                        throw new Error("Failed to verify scale details.");
                     }
+                } else {
+                    console.log("Scale Text Does Not Match ----------------> " + scaleName);
+                    throw new Error("Scale text does not match: " + scaleName);
                 }
-                console.log("Scale Not Found In List ----------------> " + scaleName);
-                return false; // Return false if customer is not found
             } else {
-                console.log("Customer Data Not Found ----------------> " + scaleName);
-                return false; // Return false if customer list is empty
+                console.log("Scale Not Found In List ----------------> " + scaleName);
+                throw new Error("Scale not found in list: " + scaleName);
             }
         } catch (error) {
             console.error("Error while checking Scale:", error);
-            return false; // Return false if any error occurs during the process
+            // Mark the test as failed
+            throw new Error("Error while checking Scale: " + error);
+        }
+    }
+
+
+    async scale_navigation(): Promise<boolean> {
+        try {
+
+            await this.page.getByRole('button', { name: 'Manage-icon Manage' }).click();
+            await this.page.getByRole('button', { name: 'Scales' }).click();
+            console.log('User navigated to scale page');
+            return true; // Navigation successful
+        } catch (error) {
+            console.error("Error during scale navigation:", error);
+            // Mark the test as failed
+            throw new Error("Error during scale navigation: " + error);
         }
     }
 

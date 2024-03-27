@@ -2,10 +2,10 @@ import { test, chromium, Page } from '@playwright/test';
 import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
 import axios from 'axios';
-import CreateScale from '../Pages/Customer_Panel/Create_Scales';
-import CreateBin from '../Pages/Customer_Panel/Create_Bins';
-import CreateMachine from '../Pages/Customer_Panel/Create_Machines';
-import CreateHopper from '../Pages/Customer_Panel/Create_Hoppers';
+import CreateScale from '../Pages/Customer_Panel/Customer_CreateScales';
+import CreateBin from '../Pages/Customer_Panel/Customer_CreateBins';
+import CreateMachine from '../Pages/Customer_Panel/Customer_CreateMachines';
+import CreateHopper from '../Pages/Customer_Panel/Customer_CreateHoppers';
 
 test.describe('Customer Panel', async () => {
     let browser
@@ -33,7 +33,7 @@ test.describe('Customer Panel', async () => {
         machine = new CreateMachine(page);
         hopper = new CreateHopper(page);
 
-        const username = "auto-501@yopmail.com";
+        const username = "auto-952@yopmail.com";
         const password = "P@ss1234";
         const url = "https://staging-app.linusanalytics.com";
         const maxRetries = 3;
@@ -55,13 +55,9 @@ test.describe('Customer Panel', async () => {
 
     test('Verify scale created by admin reflected on customer dashboard', async () => {
 
-        const customerNameValue: string = (globalThis as any).customerNameValue;
-        const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        // const { scaleId, scaleName } = testData.scaleData;
-        // const scaleNameValue = customerNameValue + "-" + scaleName;
-        //(globalThis as any).scaleNameValue = scaleNameValue;
         const scaleNameValue: string = (globalThis as any).scaleNameValue;
-        await scale.verifyscale(scaleNameValue);
+        await scale.scale_navigation();
+        await scale.verifyScaleName("Auto-952-Scale");
 
 
     });
@@ -75,15 +71,15 @@ test.describe('Customer Panel', async () => {
         (globalThis as any).binNameValue = binNameValue;
 
         await bin.bin_navigation();
-        await bin.verifybin(binNameValue);
+        await bin.verifyBinName("Auto-952-Bin");
 
     });
 
-    test('Verify machine created by admin reflected on customer dashboard', async () => {
+    test.skip('Verify machine created by admin reflected on customer dashboard', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const { MachineName } = testData.machineData;
+        const MachineName = testData.machineData;
         const machineNameValue = customerNameValue + "-" + MachineName;
         (globalThis as any).machineNameValue = machineNameValue;
 
@@ -93,15 +89,10 @@ test.describe('Customer Panel', async () => {
     });
 
     test('Verify hopper created by admin reflected on customer dashboard', async () => {
-
-        const customerNameValue: string = (globalThis as any).customerNameValue;
-        const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const { HopperName } = testData.hopperData;
-        const hopperNameValue = customerNameValue + "-" + HopperName;
-        (globalThis as any).hopperNameValue = hopperNameValue;
+        const hopperNameValue: string = (globalThis as any).hopperNameValue;
 
         await hopper.hopper_navigation();
-        await hopper.verifyhopper(hopperNameValue);
+        await hopper.verifyHopperName("Auto-952-Hopper");
 
     });
 

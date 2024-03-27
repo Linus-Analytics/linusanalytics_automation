@@ -68,7 +68,7 @@ test.describe('Test with Admin Credentials', async () => {
         // const { customerName, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber } = testData.customerData;
         // const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
         // const customerNameValue = customerName + "-" + randomNumber;
-        const customerNameValue = 'Auto-155';
+        const customerNameValue = 'Auto-952';
         (globalThis as any).customerNameValue = customerNameValue;
 
 
@@ -170,7 +170,7 @@ test.describe('Test with Admin Credentials', async () => {
     test('Create Commodity', async () => {
 
         const customerNameValue: string = (globalThis as any).customerNameValue;
-        const {commodityName} = testData.commodityData;
+        const { commodityName } = testData.commodityData;
         const commodityNameValue = customerNameValue + "-" + commodityName;
         (globalThis as any).commodityNameValue = commodityNameValue;
 
@@ -178,7 +178,7 @@ test.describe('Test with Admin Credentials', async () => {
         await commodity.commodityNavigation();
         await commodity.addcommodity(commodityNameValue);
         await commodity.checkcommodity(commodityNameValue);
-        
+
     });
 
     test('Create Machine', async () => {
@@ -186,14 +186,14 @@ test.describe('Test with Admin Credentials', async () => {
         const customerNameValue: string = (globalThis as any).customerNameValue;
         const facilityNameValue: string = (globalThis as any).facilityNameValue;
         const machinetypeNameValue: string = (globalThis as any).machinetypeNameValue;
-        const {machineName} = testData.machineData;
+        const { machineName } = testData.machineData;
         const machineNameValue = customerNameValue + "-" + machineName;
         (globalThis as any).machineNameValue = machineNameValue;
 
 
 
         await machine.machineNavigation();
-        await machine.addMachine(customerNameValue,facilityNameValue,machineNameValue,machinetypeNameValue);
+        await machine.addMachine(customerNameValue, facilityNameValue, machineNameValue, machinetypeNameValue);
         await machine.checkmachine(machineNameValue);
 
     });
@@ -205,12 +205,12 @@ test.describe('Test with Admin Credentials', async () => {
         const binNameValue: string = (globalThis as any).binNameValue;
         const machineNameValue: string = (globalThis as any).machineNameValue;
         const commodityNameValue: string = (globalThis as any).commodityNameValue;
-        const {HopperName} = testData.hopperData;
+        const HopperName = testData.hopperData;
         const hopperNameValue = customerNameValue + "-" + HopperName;
-
+        (globalThis as any).hopperNameValue = hopperNameValue;
 
         await hopper.hopperNavigation();
-        await hopper.addHopper(customerNameValue,facilityNameValue,hopperNameValue,binNameValue,commodityNameValue,machineNameValue);
+        await hopper.addHopper(customerNameValue, facilityNameValue, hopperNameValue, binNameValue, commodityNameValue, machineNameValue);
         await hopper.checkhopper(hopperNameValue);
 
     });
