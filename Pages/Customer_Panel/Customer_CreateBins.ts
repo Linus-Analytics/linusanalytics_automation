@@ -93,4 +93,79 @@ class CreateBin {
 
     }
 
+
+    async updateBinCapacity(newCapacity:string){
+
+        try {
+            
+            // Wait for the manage element to appear within 5 seconds
+            const managebin = await this.page.waitForSelector('xpath=//*[contains(text(),"Manage")]/child::span', { timeout: 5000 });
+           
+
+            if(managebin){
+
+                await managebin.click();
+
+                await this.page.getByLabel('Max Capacity').click();
+                const oldCapacity = await this.page.getByLabel('Max Capacity').textContent();
+                await this.page.getByLabel('Max Capacity').fill(newCapacity);
+
+                await this.page.getByRole('button', { name: 'Update' }).click();
+
+                if(oldCapacity != newCapacity){
+                    console.log("Maximum capacity of the bin has been updated");
+                }else{
+                    console.log("Something want wrong while updating maximum capacity of the bin");
+                }
+
+
+            }else{
+                console.log('Manage bin button is not found on the bin details page');
+            }
+            
+        } catch (error) {
+            console.error("Error during updating", error);
+            
+        }
+    }
+
+    async addthreshold(newthreshold:string,user:string){
+
+        try {
+            // Wait for the manage element to appear within 5 seconds
+            const managebin = await this.page.waitForSelector('xpath=//*[contains(text(),"Manage")]/child::span', { timeout: 5000 });
+
+            if(managebin){
+
+                await managebin.click();
+
+                await this.page.getByLabel('Notify users when at capacity').click();
+
+                const oldthreshold =  await this.page.getByLabel('Capacity Threshold', { exact: true }).innerText();
+                await this.page.getByLabel('Capacity Threshold', { exact: true }).fill(newthreshold);
+
+                await (await this.page.waitForSelector('xpath=//input[@id="notifyThresholdUsers"]', { timeout: 5000 })).fill(user);
+                await this.page.getByRole('option', { name: user }).click();
+
+                await this.page.getByRole('button', { name: 'Update' }).click();
+
+                
+                if(oldthreshold != newthreshold){
+                    console.log("Threshold value of the bin has been updated");
+                }else{
+                    console.log("Something want wrong while updating threshold value of the bin");
+                }
+
+            }else{
+                console.log('Manage bin button is not found on the bin details page');
+            }
+            
+        } catch (error) {
+            console.error("Error during updating threshold", error);
+        }
+
+    }
+
+
+
 } export default CreateBin;

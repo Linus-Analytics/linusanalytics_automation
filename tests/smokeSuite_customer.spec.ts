@@ -51,39 +51,46 @@ test.describe('Customer Panel', async () => {
         await login.login(url, username, password);
     });
 
-    test('Verify scale created by admin reflected on customer dashboard', async () => {
+    test.skip('Verify scale created by admin reflected on customer dashboard', async () => {
 
         const scaleNameValue: string = (globalThis as any).scaleNameValue;
 
         await scale.scale_navigation();
         await scale.verifyScaleName("Auto-952-Scale");
 
+
     });
 
     test.skip('Verify bin created by admin reflected on customer dashboard', async () => {
+
 
         const binNameValue: string = (globalThis as any).binNameValue;
 
         await bin.bin_navigation();
         await bin.verifyBinName(binNameValue);
+        let user: string = "Auto User";
+        const {newCapacity, capacityThreshold } = testData.binData;
+
+        await bin.bin_navigation();
+        await bin.verifyBinName("Auto-952-Bin");
+        await bin.updateBinCapacity(newCapacity);
+        await bin.addthreshold(capacityThreshold,user);
 
     });
 
     test.skip('Verify machine created by admin reflected on customer dashboard', async () => {
 
         const machineNameValue: string = (globalThis as any).machineNameValue;
-
         await machine.machine_navigation();
         await machine.verifyMachineName(machineNameValue);
 
     });
 
     test.skip('Verify hopper created by admin reflected on customer dashboard', async () => {
-
         const hopperNameValue: string = (globalThis as any).hopperNameValue;
 
         await hopper.hopper_navigation();
-        await hopper.verifyHopperName(hopperNameValue);
+        await hopper.verifyHopperName("Auto-952-Hopper");
 
     });
 

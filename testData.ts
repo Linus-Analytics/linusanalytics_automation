@@ -52,6 +52,7 @@ interface binData {
     binName: string;
     maxCapacity: string;
     capacityThreshold: string;
+    newCapacity: string;
 
 }
 interface CommodityData {
@@ -107,8 +108,9 @@ const testData: TestData = {
     binData: {
 
         binName: "Bin",
-        maxCapacity: "5000",
-        capacityThreshold: "80"
+        maxCapacity: "6372",
+        capacityThreshold: "3s0",
+        newCapacity: "2000",
     },
 
     commodityData: {
