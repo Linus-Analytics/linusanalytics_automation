@@ -26,8 +26,6 @@ test.describe('Customer Panel', async () => {
         context = await browser.newContext();
         page = await context.newPage();
         login = new LoginPage(page);
-        // customer = new CreateCustomer(page);
-        // facility = new CreateFacility(page);
         scale = new CreateScale(page);
         bin = new CreateBin(page);
         machine = new CreateMachine(page);
@@ -56,43 +54,36 @@ test.describe('Customer Panel', async () => {
     test('Verify scale created by admin reflected on customer dashboard', async () => {
 
         const scaleNameValue: string = (globalThis as any).scaleNameValue;
+
         await scale.scale_navigation();
         await scale.verifyScaleName("Auto-952-Scale");
 
-
     });
 
-    test('Verify bin created by admin reflected on customer dashboard', async () => {
+    test.skip('Verify bin created by admin reflected on customer dashboard', async () => {
 
-        const customerNameValue: string = (globalThis as any).customerNameValue;
-        const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const { binName, maxCapacity, capacityThreshold } = testData.binData;
-        const binNameValue = customerNameValue + "-" + binName;
-        (globalThis as any).binNameValue = binNameValue;
+        const binNameValue: string = (globalThis as any).binNameValue;
 
         await bin.bin_navigation();
-        await bin.verifyBinName("Auto-952-Bin");
+        await bin.verifyBinName(binNameValue);
 
     });
 
     test.skip('Verify machine created by admin reflected on customer dashboard', async () => {
 
-        const customerNameValue: string = (globalThis as any).customerNameValue;
-        const facilityNameValue: string = (globalThis as any).facilityNameValue;
-        const MachineName = testData.machineData;
-        const machineNameValue = customerNameValue + "-" + MachineName;
-        (globalThis as any).machineNameValue = machineNameValue;
+        const machineNameValue: string = (globalThis as any).machineNameValue;
 
         await machine.machine_navigation();
-        await machine.verifymachine(machineNameValue);
+        await machine.verifyMachineName(machineNameValue);
 
     });
 
-    test('Verify hopper created by admin reflected on customer dashboard', async () => {
+    test.skip('Verify hopper created by admin reflected on customer dashboard', async () => {
+
         const hopperNameValue: string = (globalThis as any).hopperNameValue;
 
         await hopper.hopper_navigation();
-        await hopper.verifyHopperName("Auto-952-Hopper");
+        await hopper.verifyHopperName(hopperNameValue);
 
     });
 

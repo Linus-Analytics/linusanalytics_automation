@@ -1,4 +1,5 @@
 import { Page } from 'playwright';
+import { expect } from 'playwright/test';
 
 class CreateScale {
     private page: Page;
@@ -8,12 +9,21 @@ class CreateScale {
 
     }
 
-    async getFacilityIdFromURL(): Promise<string | null> {
-        const currentURL = this.page.url();
-        const url = new URL(currentURL);
-        const facilityId = url.searchParams.get('facilityId');
-        return facilityId;
+    async getFacilityIdFromURL(): Promise<boolean> {
+        try {
+            const currentURL = this.page.url();
+            const url = new URL(currentURL);
+            const facilityId = url.searchParams.get('facilityId');
+            const expectedURL = `https://staging-app.linusanalytics.com/scales?facilityId=${facilityId}`;
+            await expect(this.page).toHaveURL(expectedURL);
+            return true
+        } catch (error) {
+            console.error("Error getting facility ID from URL:", error);
+            // Mark the test as failed
+            throw new Error("Error while checking Scale: " + error);
+        }
     }
+
 
     async verifyScaleDetails(scaleName: string): Promise<boolean> {
         try {
@@ -89,6 +99,7 @@ class CreateScale {
 
             await this.page.getByRole('button', { name: 'Manage-icon Manage' }).click();
             await this.page.getByRole('button', { name: 'Scales' }).click();
+
             console.log('User navigated to scale page');
             return true; // Navigation successful
         } catch (error) {
