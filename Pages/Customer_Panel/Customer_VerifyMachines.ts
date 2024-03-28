@@ -1,7 +1,7 @@
 import { Page } from 'playwright';
 import { expect } from 'playwright/test';
 
-class CreateMachine {
+class VerifyMachine {
     private page: Page;
 
     constructor(page: Page) {
@@ -93,4 +93,4 @@ class CreateMachine {
     }
 
 
-} export default CreateMachine;
+} export default VerifyMachine;

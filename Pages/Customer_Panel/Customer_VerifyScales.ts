@@ -1,7 +1,7 @@
 import { Page } from 'playwright';
 import { expect } from 'playwright/test';
 
-class CreateScale {
+class VerifyScale {
     private page: Page;
 
     constructor(page: Page) {
@@ -62,29 +62,35 @@ class CreateScale {
 
             // Wait for the scale element to appear within 10 seconds
             const scaleElement = await this.page.waitForSelector('xpath=//tr/td[1]/div/p[contains(text(),' + scaleName + ')]', { timeout: 10000 });
+
             // Verify if the scale element exists
-            if (!scaleElement)
-                throw new Error(`Scale element with name '${scaleName}' not found within 10 seconds`);
-
-            if (scaleElement) {
-                const scaleText = await scaleElement.textContent();
-
-                if (scaleText && scaleText.trim().toLowerCase() === scaleName.trim().toLowerCase()) {
-                    console.log("Scale created by admin found in customer ----------------> " + scaleName);
-                    await scaleElement.click();
-
-                    // Assuming verifyScaleDetails returns a boolean
-                    const scaleDetailsVerified = await this.verifyScaleDetails(scaleName);
-                    if (!scaleDetailsVerified) {
-                        throw new Error("Failed to verify scale details.");
-                    }
-                } else {
-                    console.log("Scale Text Does Not Match ----------------> " + scaleName);
-                    throw new Error("Scale text does not match: " + scaleName);
-                }
-            } else {
+            if (!scaleElement) {
                 console.log("Scale Not Found In List ----------------> " + scaleName);
                 throw new Error("Scale not found in list: " + scaleName);
+            }
+
+            // Get the text content of the scale element
+            const scaleText = await scaleElement.textContent();
+
+            // Verify if the scaleText is not null or undefined
+            if (scaleText === null || scaleText === undefined) {
+                console.log("Scale Text is null or undefined for ----------------> " + scaleName);
+                throw new Error("Scale text is null or undefined: " + scaleName);
+            }
+
+            // Check if the scale text matches the provided scaleName
+            if (scaleText.trim().toLowerCase() === scaleName.trim().toLowerCase()) {
+                console.log("Scale created by admin found in customer ----------------> " + scaleName);
+                await scaleElement.click();
+
+                // Assuming verifyScaleDetails returns a boolean
+                const scaleDetailsVerified = await this.verifyScaleDetails(scaleName);
+                if (!scaleDetailsVerified) {
+                    throw new Error("Failed to verify scale details.");
+                }
+            } else {
+                console.log("Scale Text Does Not Match ----------------> " + scaleName);
+                throw new Error("Scale text does not match: " + scaleName);
             }
         } catch (error) {
             console.error("Error while checking Scale:", error);
@@ -110,5 +116,5 @@ class CreateScale {
     }
 
 }
-export default CreateScale;
+export default VerifyScale;
 

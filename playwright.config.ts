@@ -7,7 +7,7 @@ import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 const config: PlaywrightTestConfig = defineConfig({
   /*globalSetup: "./global-setup",*/
   // testDir: "./tests",
-
+  preserveOutput: "always",
   /* Run tests in files in parallel */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

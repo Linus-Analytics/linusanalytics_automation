@@ -1,4 +1,4 @@
-import { test, chromium } from '@playwright/test';
+import { test, chromium, Browser } from '@playwright/test';
 import CreateCustomer from '../Pages/Admin_Panel/CreateCustomer';
 import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
@@ -12,8 +12,8 @@ import CreateCommodity from '../Pages/Admin_Panel/CreateCommodity';
 import CreateMachine from '../Pages/Admin_Panel/CreateMachine';
 import CreateHopper from '../Pages/Admin_Panel/CreateHopper';
 
-test.describe('Test with Admin Credentials', async () => {
-    let browser
+test.describe('Admin Panel --> Creation Tests', async () => {
+    let browser: Browser
     let context;
     let page: any;
     let customer: CreateCustomer;
@@ -64,11 +64,12 @@ test.describe('Test with Admin Credentials', async () => {
         await login.login(url, username, password);
     });
 
+
     test('Create Customer', async () => {
         // const { customerName, streetAddress1, streetAddress2, countryName, state, city, zipCode, phoneNumber } = testData.customerData;
         // const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
         // const customerNameValue = customerName + "-" + randomNumber;
-        const customerNameValue = 'Auto-952';
+        const customerNameValue = 'demo';
         (globalThis as any).customerNameValue = customerNameValue;
 
 
@@ -205,7 +206,7 @@ test.describe('Test with Admin Credentials', async () => {
         const binNameValue: string = (globalThis as any).binNameValue;
         const machineNameValue: string = (globalThis as any).machineNameValue;
         const commodityNameValue: string = (globalThis as any).commodityNameValue;
-        const HopperName = testData.hopperData;
+        const { HopperName } = testData.hopperData;
         const hopperNameValue = customerNameValue + "-" + HopperName;
         (globalThis as any).hopperNameValue = hopperNameValue;
 
@@ -216,9 +217,7 @@ test.describe('Test with Admin Credentials', async () => {
     });
 
 
-
-
-    // test.afterAll(async () => {
-    //     await browser.close();
-    // });
+    test.afterAll(async () => {
+        await browser.close();
+    });
 });

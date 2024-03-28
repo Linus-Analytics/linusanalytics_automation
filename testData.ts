@@ -63,7 +63,7 @@ interface CommodityData {
 interface MachinetypeDate {
 
     machinetypeName: string;
-   
+
 }
 
 const testData: TestData = {
@@ -76,7 +76,7 @@ const testData: TestData = {
     machineData: {
 
         machineName: "Machine",
-    
+
     },
 
     customerData: {
@@ -114,11 +114,11 @@ const testData: TestData = {
     },
 
     commodityData: {
-        commodityName: "Natural Gas",
+        commodityName: "Gold",
     },
 
     machinetypeData: {
-        machinetypeName: "Natural Gas",
+        machinetypeName: "Cross",
     },
 
 };

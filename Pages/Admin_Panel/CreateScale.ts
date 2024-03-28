@@ -1,26 +1,23 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 class CreateScale {
     private page: Page;
 
     constructor(page: Page) {
         this.page = page;
-
     }
 
     async scaleNavigation(): Promise<boolean> {
         try {
-
             await this.page.getByRole('button', { name: 'Scales-icon Scales' }).click();
-
             await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/scales');
-            return true; // Return true if all details were entered successfully
+            return true; // Navigation successful
         } catch (error) {
-            console.error('Error occurred while adding Scales:', error);
-            return false; // Return false if any error occurred while entering details
+            console.error('Error occurred during scale navigation:', error);
+            // throw new Error("Error during scale navigation: " + error); // Mark the test as failed
+            return false;
         }
     }
-
 
     async addScale(customerName: string, facilityName: string, scaleId: string, scaleName: string): Promise<boolean> {
         try {
@@ -43,10 +40,11 @@ class CreateScale {
             await this.page.getByRole('button', { name: 'Save' }).click();
 
             await this.page.waitForTimeout(5000);
-            return true; // Return true if all details were entered successfully
+            return true; // Scale added successfully
         } catch (error) {
             console.error('Error occurred while adding Scale:', error);
-            return false; // Return false if any error occurred while entering details
+            // throw new Error("Error during adding scale: " + error); // Mark the test as failed
+            return false;
         }
     }
 
@@ -58,38 +56,27 @@ class CreateScale {
             if (scaleList.length > 0) {
                 for (const element of scaleList) {
                     const scaleListText = await element.textContent();
-                    if (scaleListText) { // Check if scaleListText is not null
+                    if (scaleListText) {
                         console.log("Scale Name ----------------> " + scaleListText);
 
                         if (scaleListText.trim().toLowerCase() === scaleNameValue.trim().toLowerCase()) {
                             console.log("Scale Created ----------------> " + scaleNameValue);
-                            return true; // Return true when Scale is found
+                            return true; // Scale found
                         }
                     }
                 }
                 console.log("Scale Not Found In List ----------------> " + scaleNameValue);
-                return false; // Return false if Scale is not found
+                return false; // Scale not found
             } else {
                 console.log("Scale Data Not Found ----------------> " + scaleNameValue);
-                return false; // Return false if Scale list is empty
+                return false; // Scale list is empty
             }
         } catch (error) {
             console.error("Error while checking Scale:", error);
-            return false; // Return false if any error occurs during the process
+            //  throw new Error("Error during checking scale: " + error); // Mark the test as failed
+            return false;
         }
     }
+}
 
-} export default CreateScale;
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default CreateScale;

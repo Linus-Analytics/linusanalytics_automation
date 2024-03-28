@@ -1,35 +1,29 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 class CreateFacility {
     private page: Page;
 
     constructor(page: Page) {
         this.page = page;
-
     }
 
     async facilityNavigation(): Promise<boolean> {
         try {
-
             await this.page.getByRole('button', { name: 'Facilities-icon Facilities' }).click();
-          
             await expect(this.page).toHaveURL('https://staging-app.linusanalytics.com/admin/facilities');
-          
-            return true; // Return true if all details were entered successfully
+            return true; // Navigation successful
         } catch (error) {
-            console.error('Error occurred while adding Facility:', error);
-            return false; // Return false if any error occurred while entering details
+            console.error('Error occurred during facility navigation:', error);
+           // throw new Error("Error during facility navigation: " + error); // Mark the test as failed
+           return false;
         }
     }
-
-
 
     async addFacility(customerName: string, facilityName: string, contactName: string): Promise<boolean> {
         try {
             await this.facilityNavigation();
 
             await this.page.getByRole('button', { name: 'Facilities-icon Facilities' }).click();
-
             await this.page.getByRole('button', { name: 'Add Facility' }).click();
 
             await this.page.getByLabel('Select Customer').click();
@@ -46,47 +40,43 @@ class CreateFacility {
             await this.page.getByRole('button', { name: 'Save' }).click();
 
             console.log("Success entering Facility details");
-
             await this.page.waitForTimeout(5000);
-            return true; // Return true if all details were entered successfully
+            return true; // Facility added successfully
         } catch (error) {
             console.error('Error occurred while adding Facility:', error);
-            return false; // Return false if any error occurred while entering details
+          //  throw new Error("Error during facility addition: " + error); // Mark the test as failed
+          return false;
         }
     }
 
     async checkfacility(facilityNameValue: string): Promise<boolean> {
         try {
-
             const facilityList = await this.page.$$('//h4');
 
             if (facilityList.length > 0) {
                 for (const element of facilityList) {
                     const facilityListText = await element.textContent();
-                    if (facilityListText) { // Check if facilityListText is not null
+                    if (facilityListText) {
                         console.log("Facility Name ----------------> " + facilityListText);
 
                         if (facilityListText.trim().toLowerCase() === facilityNameValue.trim().toLowerCase()) {
                             console.log("Facility Created ----------------> " + facilityNameValue);
-                            return true; // Return true when facility is found
+                            return true; // Facility found
                         }
                     }
                 }
                 console.log("Facility Not Found In List ----------------> " + facilityNameValue);
-                return false; // Return false if Facility is not found
+                return false; // Facility not found
             } else {
                 console.log("Facility Data Not Found ----------------> " + facilityNameValue);
-                return false; // Return false if Facility list is empty
+                return false; // Facility list is empty
             }
         } catch (error) {
             console.error("Error while checking Facility:", error);
-            return false; // Return false if any error occurs during the process
+          //  throw new Error("Error while checking Facility: " + error); // Mark the test as failed
+          return false;
         }
     }
+}
 
-}export default CreateFacility;
-
-   
-   
-
-
+export default CreateFacility;

@@ -1,23 +1,22 @@
-import { test, chromium, Page } from '@playwright/test';
+import { test, chromium, Page, Browser } from '@playwright/test';
 import LoginPage from '../Pages/LoginPage';
 import testData from '../testData';
 import axios from 'axios';
-import CreateScale from '../Pages/Customer_Panel/Customer_CreateScales';
-import CreateBin from '../Pages/Customer_Panel/Customer_CreateBins';
-import CreateMachine from '../Pages/Customer_Panel/Customer_CreateMachines';
-import CreateHopper from '../Pages/Customer_Panel/Customer_CreateHoppers';
 
-test.describe('Customer Panel', async () => {
-    let browser
+import VerifyBin from '../Pages/Customer_Panel/Customer_VerifyBins';
+import VerifyMachine from '../Pages/Customer_Panel/Customer_VerifyMachines';
+import VerifyHopper from '../Pages/Customer_Panel/Customer_VerifyHoppers';
+import VerifyScale from '../Pages/Customer_Panel/Customer_VerifyScales';
+
+test.describe('Customer Panel --> Verification Tests', async () => {
+    let browser: Browser
     let context;
     let page: Page;
-    // let customer: CreateCustomer;
     let login: LoginPage;
-    // let facility: CreateFacility;
-    let scale: CreateScale;
-    let bin: CreateBin;
-    let machine: CreateMachine;
-    let hopper: CreateHopper;
+    let scale: VerifyScale;
+    let bin: VerifyBin;
+    let machine: VerifyMachine;
+    let hopper: VerifyHopper;
 
     test.beforeAll(async () => {
         browser = await chromium.launch({
@@ -26,12 +25,12 @@ test.describe('Customer Panel', async () => {
         context = await browser.newContext();
         page = await context.newPage();
         login = new LoginPage(page);
-        scale = new CreateScale(page);
-        bin = new CreateBin(page);
-        machine = new CreateMachine(page);
-        hopper = new CreateHopper(page);
+        scale = new VerifyScale(page);
+        bin = new VerifyBin(page);
+        machine = new VerifyMachine(page);
+        hopper = new VerifyHopper(page);
 
-        const username = "auto-952@yopmail.com";
+        const username = "demouser@yopmail.com";
         const password = "P@ss1234";
         const url = "https://staging-app.linusanalytics.com";
         const maxRetries = 3;
@@ -51,34 +50,28 @@ test.describe('Customer Panel', async () => {
         await login.login(url, username, password);
     });
 
-    test.skip('Verify scale created by admin reflected on customer dashboard', async () => {
+    test('Verify scale created by admin reflected on customer dashboard', async () => {
 
         const scaleNameValue: string = (globalThis as any).scaleNameValue;
 
         await scale.scale_navigation();
-        await scale.verifyScaleName("Auto-952-Scale");
+        await scale.verifyScaleName(scaleNameValue);
 
 
     });
 
-    test.skip('Verify bin created by admin reflected on customer dashboard', async () => {
+    test('Verify bin created by admin reflected on customer dashboard', async () => {
 
 
         const binNameValue: string = (globalThis as any).binNameValue;
+        const { newCapacity, capacityThreshold } = testData.binData;
 
         await bin.bin_navigation();
         await bin.verifyBinName(binNameValue);
-        let user: string = "Auto User";
-        const {newCapacity, capacityThreshold } = testData.binData;
-
-        await bin.bin_navigation();
-        await bin.verifyBinName("Auto-952-Bin");
-        await bin.updateBinCapacity(newCapacity);
-        await bin.addthreshold(capacityThreshold,user);
 
     });
 
-    test.skip('Verify machine created by admin reflected on customer dashboard', async () => {
+    test('Verify machine created by admin reflected on customer dashboard', async () => {
 
         const machineNameValue: string = (globalThis as any).machineNameValue;
         await machine.machine_navigation();
@@ -86,15 +79,15 @@ test.describe('Customer Panel', async () => {
 
     });
 
-    test.skip('Verify hopper created by admin reflected on customer dashboard', async () => {
+    test('Verify hopper created by admin reflected on customer dashboard', async () => {
         const hopperNameValue: string = (globalThis as any).hopperNameValue;
 
         await hopper.hopper_navigation();
-        await hopper.verifyHopperName("Auto-952-Hopper");
+        await hopper.verifyHopperName(hopperNameValue);
 
     });
 
-    // test.afterAll(async () => {
-    //     await browser.close();
-    // });
+    test.afterAll(async () => {
+        await browser.close();
+    });
 });

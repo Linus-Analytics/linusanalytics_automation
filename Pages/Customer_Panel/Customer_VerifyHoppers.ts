@@ -1,7 +1,7 @@
 import { Page } from 'playwright';
 import { expect } from 'playwright/test';
 
-class CreateHopper {
+class VerifyHopper {
     private page: Page;
 
     constructor(page: Page) {
@@ -90,4 +90,4 @@ class CreateHopper {
     }
 
 }
-export default CreateHopper;
+export default VerifyHopper;
